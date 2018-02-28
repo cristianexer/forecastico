@@ -5,18 +5,20 @@ template(name='Profile')
     .col-xs-12.col-md-10.col-md-offset-1 Profile Box
     .col-xs-12.col-md-10.col-md-offset-1
       ul.nav.nav-tabs
-        li.nav-item
-          a.nav-link.active(data-toggle='tab', href='#panel1', role='tab') Add Company
-        li.nav-item
-          a.nav-link(data-toggle='tab', href='#panel2', role='tab') Edit Companies
+        if isInRole 'Admin'
+          li.nav-item
+            a.nav-link.active(data-toggle='tab', href='#panel1', role='tab') Add Company
+          li.nav-item
+            a.nav-link(data-toggle='tab', href='#panel2', role='tab') Edit Companies
     .col-xs-12.col-md-10.col-md-offset-1
-      #panel1.fade.in.show.active(role='tabpanel')
-        .col-xs-12.col-md-4
-          +quickForm(collection="Symbols" id="symbol-insert" type="insert" buttonContent="Add")
-      #panel2.tab-pane.fade(role='tabpanel')
+      if isInRole 'Admin'
+        #panel1.fade.in.show.active(role='tabpanel')
+          .col-xs-12.col-md-4
+            +quickForm(collection="Symbols" id="symbol-insert" type="insert" buttonContent="Add")
+        #panel2.tab-pane.fade(role='tabpanel')
 
-      #panel3.tab-pane.fade(role='tabpanel')
-
+        #panel3.tab-pane.fade(role='tabpanel')
+      
   else
     .col-xs-12
       .col-xs-12.col-md-6.col-md-offset-3

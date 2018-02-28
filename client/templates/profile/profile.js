@@ -17,6 +17,8 @@ Template.Profile.onCreated(function () {
 });
 
 Template.Profile.onRendered(function () {
+   
+    
 });
 
 Template.Profile.onDestroyed(function () {
