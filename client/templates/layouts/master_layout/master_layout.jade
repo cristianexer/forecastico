@@ -1,0 +1,20 @@
+template(name='MasterLayout')
+  nav.forecasticoNav
+    .col-xs-12.col-md-4.col-md-offset-4.innerNav
+      .row
+        .col-xs-3.navChild
+          a(href="{{pathFor 'HomeSecond'}}",class="{{isActiveRoute class='active' name='HomeSecond'}} {{isActiveRoute class='active' name='Home'}}")
+            i.fa.fa-home
+        .col-xs-3.navChild
+          a(href="{{pathFor 'companies'}}",class="{{isActiveRoute class='active' name='companies'}}")
+            i.fa.fa-list
+        .col-xs-3.navChild
+          a(href="{{pathFor 'favorites'}}",class="{{isActiveRoute class='active' name='favorites'}}")
+              i.fa.fa-heart
+        .col-xs-3.navChild
+          a(href="{{pathFor 'profile'}}",class="{{isActiveRoute class='active' name='profile'}}")
+            i.fa.fa-user
+  +yield
+ 
+
+    

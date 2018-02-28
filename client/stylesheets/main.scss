@@ -1,0 +1,28 @@
+/*****************************************************************************/
+/* main: Style */
+/*****************************************************************************/
+@import "{}/client/stylesheets/mixins.scss";
+body{
+    background-color: #fff;
+}
+.main {
+}
+a:focus, a:active,
+button,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+select::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    outline: none !important;
+}
+.btn{
+    background-color: #eee !important;
+    color:#009688 !important;
+    @include animate(all,320ms);
+    &:hover{
+        @include animate(all,320ms);
+        color:#fff !important;
+        background-color: #009688 !important;
+    }
+}

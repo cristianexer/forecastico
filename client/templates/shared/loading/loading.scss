@@ -1,0 +1,46 @@
+/*****************************************************************************/
+/* Loading: Style */
+/*****************************************************************************/
+@import "{}/client/stylesheets/mixins.scss";
+
+@include keyframes(increase) {
+    0%   { width: 0px;
+           height:0px;
+           
+         }
+
+    50% { 
+        
+        width: 200px;
+        height:200px;
+     }
+
+     100%{ 
+         width: 0px;
+         height:0px;
+        
+      }
+  }
+
+.loader-wrap{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top:0;
+    background-color: rgba(255,255,255,0.9);
+    z-index: 5;
+    @include animate(all,320ms);
+
+    .loader{
+        position: absolute;
+        left: 50%;
+        top:50%;
+        @include transform(translate(-50%,-50%));
+        border-radius: 50%;
+        
+        background-color: rgba(56, 163, 110, 0.5);
+        @include animation('increase 1.9s infinite');
+
+    }
+}

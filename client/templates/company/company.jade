@@ -1,0 +1,50 @@
+template(name='Company')
+  .col-xs-12
+    .row
+      .col-xs-12.main-body
+        .row
+          .col-xs-12.company-header
+            .col-xs-6.company-name=company.company
+            .col-xs-6.text-right.company-symbol=company.symbol
+            .col-xs-12.company-graphic
+              .col-xs-12.col-md-6
+                .col-xs-12.text-center Closed Prices 
+                canvas#canvas
+              .col-xs-12.col-md-6
+                .col-xs-12.text-center Prediction
+          .col-xs-12.company-boxes
+            .row
+              .col-xs-12.col-md-4.description-box
+                .col-xs-12.title Description
+                .col-xs-12=company.description
+              .col-xs-12.col-md-4.indicators-box
+                .col-xs-12.title Indicators
+                .col-xs-6.open Open
+                  .indicator
+                .col-xs-6.adjOpen Adj. Open
+                  .indicator
+                .col-xs-6.clos Close
+                  .indicator
+                .col-xs-6.adjClose Adj. Close
+                  .indicator
+                .col-xs-6.high High
+                  .indicator
+                .col-xs-6.adjHigh Adj. High
+                  .indicator
+                .col-xs-6.low Low
+                  .indicator
+                .col-xs-6.adjLow Adj. Low
+                  .indicator
+                .col-xs-6.volume Volume
+                  .indicator
+                .col-xs-6.adjVolume Adj. Volume
+                  .indicator
+                .col-xs-6.dividend Dividend
+                  .indicator
+                .col-xs-6.split Split
+                  .indicator
+              .col-xs-12.col-md-4.news-box
+                .col-xs-12.title News
+                .col-xs-12.news-container
+              
+
