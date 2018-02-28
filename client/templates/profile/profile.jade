@@ -12,11 +12,16 @@ template(name='Profile')
             a.nav-link(data-toggle='tab', href='#panel2', role='tab') Edit Companies
     .col-xs-12.col-md-10.col-md-offset-1
       if isInRole 'Admin'
+
         #panel1.fade.in.show.active(role='tabpanel')
           .col-xs-12.col-md-4
             +quickForm(collection="Symbols" id="symbol-insert" type="insert" buttonContent="Add")
         #panel2.tab-pane.fade(role='tabpanel')
-
+          each companies
+            .col-xs-12.col-md-4
+              .col-xs-12=company
+              .col-xs-12
+               +quickForm(collection="Symbols" doc=this id=company type="update" buttonContent="Edit")
         #panel3.tab-pane.fade(role='tabpanel')
       
   else
