@@ -1,5 +1,71 @@
 /*****************************************************************************/
+
+
 /* Home: Style */
+
+
 /*****************************************************************************/
-.home {
+
+@import "{}/client/stylesheets/mixins.scss";
+.news-box-home {
+    background-color: #009688;
+    color: #fff;
+    overflow: hidden; // overflow-y: scroll;
+    // height: 33vh;
+    .title {
+        font-size: 23px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px
+    }
+    .news-item {
+        background: #333;
+        color: #fff;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        overflow: hidden; //height: 120px;
+        @include animate(all, 520ms);
+        .news-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .news-date {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .news-content {
+            visibility: hidden; // @include animate(all, 320ms);
+            cursor: pointer;
+            //margin-top: 0px;
+            //margin-bottom: 0px;
+            font-size: 15px;
+            line-height: 30px;
+            height: 0;
+        }
+        &.expand {
+            //min-height: 360px;
+            //height: auto;
+            @include animate(all, 820ms);
+            .news-content {
+                visibility: visible;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                height: auto;
+                @include animate(all, 320ms);
+            }
+        }
+    }
+}
+
+.trend-box-home {
+    background-color: #333;
+    min-height: 34vh;
+}
+
+.last-box-home {
+    background-color: #245fac;
+    min-height: 33vh;
 }

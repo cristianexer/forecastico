@@ -1,103 +1,102 @@
 /*****************************************************************************/
+
+
 /* Company: Style */
+
+
 /*****************************************************************************/
+
 @import "{}/client/stylesheets/mixins.scss";
-.main-body{
+.main-body {
     padding-bottom: 41px;
     background-color: #eee;
-    .company-header{
-        color:#fff;
+    .company-header {
+        color: #fff;
         background-color: #009688;
         padding-top: 10px;
         padding-bottom: 10px;
-    .company-name,
-    .company-symbol{
-        font-size:30px;
-        margin-top: 5px;
-        font-weight: bold;
-    }
-    .company-graphic{
-        color:#fff;
-        overflow: hidden;
-       #canvas{
-        
-       }
-        
-    }
-    }
-    .company-boxes{
-        background-color: #333;
-        
-        
-        .news-box{
-            background-color: #333;
-            color:#fff; 
+        .company-name,
+        .company-symbol {
+            font-size: 30px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .company-graphic {
+            color: #fff;
             overflow: hidden;
-                       
+            #canvas {}
+        }
+    }
+    .company-boxes {
+        background-color: #333;
+        .news-box {
+            background-color: #333;
+            color: #fff;
+            overflow: hidden;
             overflow-y: scroll;
             height: 500px;
-            .title{
+            .title {
                 font-size: 23px;
                 text-align: center;
                 margin-top: 10px;
                 margin-bottom: 10px
             }
-            .news-container{
-            
-            .news-item {
-                background: #009688;
-                color: #fff;
-                margin-bottom: 10px;
-                margin-top: 10px;
-                overflow: hidden;
-                
-                .news-title{
-                    font-size: 18px;
-                    font-weight: bold;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                    cursor:pointer;
-                }
-                .news-date{
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                    
-                }
-                .news-content{
-                    
-                    display: none;
-                    @include animate(all,320ms);
-                    cursor:pointer;
-                    margin-top: 15px;
-                    margin-bottom: 15px;
-                    font-size: 16px;
-                }
-                &.expand{
-                    .news-content{
-                        
-                        display: block;
-                        @include animate(all,320ms);
+            .news-container {
+                .news-item {
+                    background: #009688;
+                    color: #fff;
+                    margin-bottom: 10px;
+                    margin-top: 10px;
+                    overflow: hidden;
+                    .news-title {
+                        font-size: 18px;
+                        font-weight: bold;
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                        cursor: pointer;
+                    }
+                    .news-date {
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+                    }
+                    .news-content {
+                        visibility: hidden; // @include animate(all, 320ms);
+                        cursor: pointer; //margin-top: 0px;
+                        //margin-bottom: 0px;
+                        font-size: 15px;
+                        line-height: 30px;
+                        height: 0;
+                    }
+                    &.expand {
+                        //min-height: 360px;
+                        //height: auto;
+                        @include animate(all, 820ms);
+                        .news-content {
+                            visibility: visible;
+                            margin-top: 20px;
+                            margin-bottom: 20px;
+                            height: auto;
+                            @include animate(all, 320ms);
+                        }
                     }
                 }
             }
         }
-        }
-        .indicators-box{
+        .indicators-box {
             background-color: #fff;
             height: 500px;
-            .title{
+            .title {
                 font-size: 23px;
                 text-align: center;
                 margin-top: 10px;
                 margin-bottom: 10px
             }
-            .col-xs-6{
+            .col-xs-6 {
                 font-size: 17px;
                 font-weight: bold;
                 margin-top: 5px;
                 margin-bottom: 5px;
-                
-                .indicator{
+                .indicator {
                     margin-top: 5px;
                     padding-top: 5px;
                     font-weight: 300;
@@ -105,11 +104,11 @@
                 }
             }
         }
-        .description-box{
+        .description-box {
             background-color: #333;
-            color:#fff;
+            color: #fff;
             height: 500px;
-            .title{
+            .title {
                 font-size: 23px;
                 text-align: center;
                 margin-top: 10px;
