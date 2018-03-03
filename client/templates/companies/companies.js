@@ -20,23 +20,20 @@ Template.Companies.helpers({
 Template.Companies.onCreated(function () {
 });
 
-async function getEOD(SYMBOL,EODHandler){
-  
-  var quandlLink = 'https://www.quandl.com/api/v3/datasets/EOD/';//End of the day api
-  var quandlKey = 'FHgZKM4zrgcJkQs5TiHv'; // my account api key
-  var year = new Date().getFullYear(); // get current year
-  var final = quandlLink + SYMBOL + '.json?api_key=' + quandlKey +'&start_date='+ year +'-01-01'; // concatenate all variables to create a link for api
+async function getData(SYMBOL, Handler) {
 
-  await HTTP.get(final,{}, function(error,response){
-    if ( error ) {
-        console.log( error );
-      } else {
-        //return response
-        EODHandler(response);
-      }
+  var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=news,timeseries&range=1m&last=1';
+
+  await HTTP.get(final, {}, function (error, response) {
+    if (error) {
+      console.log(error);
+    } else {
+      //return response
+      Handler(response);
+    }
   });
-      
-  }
+
+}
 
 
 function placeIndicators(id,arr){
@@ -57,21 +54,34 @@ function toDate(timestamp){
   var timestp = new Date(timestamp);
   return timestp.toISOString();
 }
+function stringifyComps(arr) {
+  var str = "";
+  arr.map(function (res, key) {
+    str = str + res.symbol + ",";
+  });
+  str[str.length - 1] = "";
+  return str;
+}
+
 Template.Companies.onRendered(function () {
-  
-    var companies = this.data.companies;
-    companies.map(function(result,keys){
-      getEOD(result.symbol,function(response){
-        placeIndicators(
-          result.symbol,
-          [
-            response.data.dataset.data[0][4],//today close price
-            response.data.dataset.data[1][4] // yesterday close price
-          ]
-        );
-          
-       });
+  var companies = this.data.companies;
+  var comps = stringifyComps(companies);
+  getData(comps, function (response) {
+ 
+    Object.entries(response.data).forEach(function ([key, value]) {
+
+      placeIndicators(
+        key,
+        [
+         value.timeseries[19].close,//today close price
+         value.timeseries[18].close // yesterday close price
+        ]
+      );
     });
+   
+
+  });
+    
      
     
     

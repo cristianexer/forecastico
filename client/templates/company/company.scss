@@ -89,13 +89,14 @@
                 font-size: 23px;
                 text-align: center;
                 margin-top: 10px;
-                margin-bottom: 10px
+                margin-bottom: 10px;
+                font-weight:bold;
             }
             .col-xs-6 {
                 font-size: 17px;
                 font-weight: bold;
-                margin-top: 5px;
-                margin-bottom: 5px;
+                margin-top: 13px;
+                margin-bottom: 13px;
                 .indicator {
                     margin-top: 5px;
                     padding-top: 5px;
@@ -103,6 +104,7 @@
                     border-top: 1px solid #333;
                 }
             }
+            
         }
         .description-box {
             background-color: #333;

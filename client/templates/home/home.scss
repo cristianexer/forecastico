@@ -62,7 +62,8 @@
 
 .trend-box-home {
     background-color: #333;
-    min-height: 34vh;
+    //min-height: 40vh;
+    overflow: hidden !important;
 }
 
 .last-box-home {
