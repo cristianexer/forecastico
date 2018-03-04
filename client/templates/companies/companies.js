@@ -5,7 +5,21 @@ Template.Companies.events({
   'click .fa-area-chart':function(){
     var symbol = this.symbol;
     window.location.href = 'company/' + symbol;
-}
+},
+  'click .fa-heart': function () {
+    var item = {
+      user: Meteor.user()._id,
+      symbol: this.symbol,
+      company:this.company
+    };
+    
+    
+    if (Favorites.findOne(item))
+      Favorites.remove(Favorites.findOne(item)._id);
+    else
+     Favorites.insert(item);
+     
+  }
 });
 
 /*****************************************************************************/
@@ -22,7 +36,7 @@ Template.Companies.onCreated(function () {
 
 async function getData(SYMBOL, Handler) {
 
-  var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=news,timeseries&range=1m&last=1';
+  var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=news,quote&range=1m&last=1';
 
   await HTTP.get(final, {}, function (error, response) {
     if (error) {
@@ -66,6 +80,7 @@ function stringifyComps(arr) {
 Template.Companies.onRendered(function () {
   var companies = this.data.companies;
   var comps = stringifyComps(companies);
+  
   getData(comps, function (response) {
  
     Object.entries(response.data).forEach(function ([key, value]) {
@@ -73,8 +88,8 @@ Template.Companies.onRendered(function () {
       placeIndicators(
         key,
         [
-         value.timeseries[19].close,//today close price
-         value.timeseries[18].close // yesterday close price
+         value.quote.close,//today close price
+         value.quote.previousClose // yesterday close price
         ]
       );
     });

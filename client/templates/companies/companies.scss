@@ -1,86 +1,77 @@
 /*****************************************************************************/
-/* Companies: Style */
-/*****************************************************************************/
-@import "{}/client/stylesheets/mixins.scss";
-.company-card{
 
+
+/* Companies: Style */
+
+
+/*****************************************************************************/
+
+@import "{}/client/stylesheets/mixins.scss";
+.company-card {
     background-color: #009688;
-    border-radius:4px;
+    border-radius: 4px;
     margin-top: 10px;
     margin-bottom: 10px;
-    
     overflow: hidden;
-    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.6);
-    //height: 120px;
-    .company-rightSide{
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.6); //height: 120px;
+    .company-rightSide {
         background-color: #fff;
-        margin-top:10px;        
+        margin-top: 10px;
     }
     .company-symbol,
-    .company-name{
+    .company-name {
         font-size: 15px;
-        margin-top:10px;
-        padding-bottom: 10px;
-        //border-bottom: 1px solid #ddd;
+        margin-top: 10px;
+        padding-bottom: 10px; //border-bottom: 1px solid #ddd;
         font-size: 17px;
-        color:#fff;
+        color: #fff;
         font-weight: bold;
         white-space: nowrap;
-        
     }
-    .company-symbol{
+    .company-symbol {
         text-align: right;
     }
-    .company-description{
+    .company-description {
         font-size: 18px;
-        margin-top:5px;
+        margin-top: 5px;
         margin-bottom: 5px;
         font-weight: bold;
-        color:#fff;
-        .indicator{
+        color: #fff;
+        .indicator {
             //font-size: 15px;
-            font-weight: bold;
-            //border:1px solid #fff;
+            font-weight: bold; //border:1px solid #fff;
             //background-color: #fff;
             //color:#333;
             //padding-top: 10px;
             //padding-bottom: 10px;
             border-radius: 4px;
-            text-align: center;
-       
-     
-            //box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.0) inset;
-            &.up{
-       
+            text-align: center; //box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.0) inset;
+            &.up {
                 box-shadow: 0px -35px 0px 0px limegreen inset;
-                @include animate(box-shadow,2120ms);
+                @include animate(box-shadow, 2120ms);
             }
-            &.down{
-
+            &.down {
                 box-shadow: 0px -35px 0px 0px #ff4c4c inset;
-                @include animate(box-shadow,2120ms);
-             
-                
+                @include animate(box-shadow, 2120ms);
             }
-            
         }
     }
-    .favorite-company{
+    .favorite-company {
         color: #fff;
-        text-align: center;
-        
-        //padding-top: 5px;
+        text-align: center; //padding-top: 5px;
         //padding-bottom: 5px;
-        font-size: 25px;
-       // height: 100px;
-       // background-color: #fff;
-        i{
+        font-size: 25px; // height: 100px;
+        // background-color: #fff;
+        i {
             color: #aaa;
             padding-top: 5px;
             margin: 0 5px;
             cursor: pointer;
-            &:hover{
-                color:#009688;
+            &:hover {
+                color: #009688;
+            }
+            &.active {
+                color: #009688;
             }
         }
     }

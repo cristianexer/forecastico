@@ -1,7 +1,24 @@
 template(name='Favorites')
   .col-xs-12.col-md-10.col-md-offset-1
     if currentUser
-      h1 Logged
+       each companies
+        .col-xs-12.col-sm-6.col-md-4
+          .col-xs-12.company-card(id=symbol)
+            .row
+              .col-xs-8.company-name=company
+              .col-xs-4.company-symbol=symbol            
+              .col-xs-12.company-description.text-center
+                  .col-xs-5.amount 0.00
+                  .col-xs-2.sign USD
+                  .indicator
+              .col-xs-12.company-rightSide
+                .row
+                  .col-xs-12.favorite-company
+                    .row
+                      .col-xs-6
+                        i.fa.fa-heart.active
+                      .col-xs-6
+                        i.fa.fa-area-chart
     else
       .col-xs-12
         .col-xs-12.col-md-6.col-md-offset-3
