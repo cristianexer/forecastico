@@ -2,34 +2,7 @@
 /*****************************************************************************/
 /* Home: Functions */
 /*****************************************************************************/
-// async function getEOD(SYMBOL, EODHandler) {
 
-//     var final = 'https://api.iextrading.com/1.0/stock/' + SYMBOL.toLowerCase() + '/time-series'; //End of the day api
-   
-//     await HTTP.get(final, {}, function (error, response) {
-//         if (error) {
-//             console.log(error);
-//         } else {
-//             //return response
-//             EODHandler(response);
-//         }
-//     });
-
-// }
-// async function getNews(SYMBOL, Handler) {
-
-//     var final = 'https://api.iextrading.com/1.0/stock/' + SYMBOL.toLowerCase() + '/batch?types=news&range=1m&last=1';
-
-//     await HTTP.get(final, {}, function (error, response) {
-//         if (error) {
-//             console.log(error);
-//         } else {
-//             //return response
-//             Handler(response);
-//         }
-//     });
-
-// }
 async function getData(SYMBOL, Handler) {
 
     var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols='+ SYMBOL +'&types=news,timeseries&range=1m&last=1';
@@ -157,7 +130,7 @@ Template.Home.onRendered(function () {
        
     });
 
-
+    
 });
 
 Template.Home.onDestroyed(function () {

@@ -1,29 +1,54 @@
 template(name='Profile')
   if currentUser
-    .col-xs-12.col-md-10.col-md-offset-1
-      +loginButtons
-    .col-xs-12.col-md-10.col-md-offset-1 Profile Box
-    .col-xs-12.col-md-10.col-md-offset-1
-      ul.nav.nav-tabs
-        if isInRole 'Admin'
-          li.nav-item
-            a.nav-link.active(data-toggle='tab', href='#panel1', role='tab') Add Company
-          li.nav-item
-            a.nav-link(data-toggle='tab', href='#panel2', role='tab') Edit Companies
-    .col-xs-12.col-md-10.col-md-offset-1
-      if isInRole 'Admin'
-
-        #panel1.fade.in.show.active(role='tabpanel')
-          .col-xs-12.col-md-4
-            +quickForm(collection="Symbols" id="symbol-insert" type="insert" buttonContent="Add")
-        #panel2.tab-pane.fade(role='tabpanel')
-          each companies
-            .col-xs-12.col-md-4
-              .col-xs-12=company
-              .col-xs-12
-               +quickForm(collection="Symbols" doc=this id=company type="update" buttonContent="Edit")
-        #panel3.tab-pane.fade(role='tabpanel')
-      
+    .col-xs-12.col-md-8.col-md-offset-2
+        .col-xs-12.profile-wrapper
+          .col-xs-12.profile-item
+            .col-xs-12.profile-data
+              .col-xs-12.col-md-3.profile-picture
+                .col-xs-12.pic-container
+                  if equal profile.profilepicture "none"
+                    img.img.img-responsive(src="/images/avatar.png")
+                  else
+                    img.img.img-responsive(src="/profiles/#{me._id}/#{profile.profilepicture}.jpg")
+                  i.fa.fa-cog#imgChanger
+              .col-xs-12.col-md-9.profile-info
+                .row
+                  .col-xs-12.col-md-9
+                    .col-xs-12.username 
+                      i.fa.fa-user
+                      #username=profile.nickname
+                    .col-xs-12.email
+                        i.fa.fa-envelope
+                        each me.emails
+                          | #{address}
+                    .col-xs-12.favorites
+                      i.fa.fa-heart
+                      | Favorites:
+                      span.fav-number=favorites
+                  .col-xs-12.col-md-3
+                    .col-xs-12
+                      .col-xs-12.editProfile(data-target="#editProfile") Edit Profile
+                    .col-xs-12
+                      .col-xs-12.logOut Log Out
+              if isInRole "Admin"
+                .col-xs-12.profile-menu
+                  .col-xs-12.col-md-4
+                    .col-xs-12.profile-menu-item(data-target="#addCompany") Add Company
+                  .col-xs-12.col-md-4
+                    .col-xs-12.profile-menu-item(data-target="#editCompanies") Edit Companies
+                  .col-xs-12.col-md-4
+                    .col-xs-12.profile-menu-item(data-target="#editRights") Edit Users Rights
+    if isInRole "Admin"
+      .col-xs-12.col-md-8.col-md-offset-2
+        .col-xs-12
+          .col-xs-12.changerMenu
+            .col-xs-12.changerMenu-item#addCompany.active
+              +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
+            .col-xs-12.changerMenu-item#editCompanies
+              .col-xs-12 Companies
+            .col-xs-12.changerMenu-item#editRights
+              .col-xs-12 Users
+     
   else
     .col-xs-12
       .col-xs-12.col-md-6.col-md-offset-3

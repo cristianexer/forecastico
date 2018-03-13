@@ -34,3 +34,5 @@ accounts-base
 accounts-ui
 useraccounts:bootstrap
 alanning:roles
+peppelg:bootstrap-3-modal
+aldeed:delete-button

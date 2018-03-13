@@ -1,5 +1,161 @@
 /*****************************************************************************/
+
+
 /* Profile: Style */
+
+
 /*****************************************************************************/
-.profile {
+
+@import "{}/client/stylesheets/mixins.scss";
+.profile-wrapper {
+    margin-top: 20px;
+    .profile-item {
+        padding-bottom: 20px;
+        padding-top: 20px;
+        box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+        min-height: 20vh;
+        .profile-data {
+            text-align: center;
+            &.editMode {
+                @include animate(all, 320ms);
+                .profile-picture {
+                    .pic-container {
+                        position: relative;
+                        &:after {
+                            content: "";
+                            background-color: rgba(0, 0, 0, 0.5);
+                            position: absolute;
+                            left: 15px;
+                            right: 15px;
+                            bottom: 0;
+                            top: 0;
+                            border-radius: 50%;
+                            @include animate(all, 320ms);
+                        }
+                    }
+                    .fa-cog {
+                        display: block;
+                        z-index: 3;
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        @include transform(translate(-50%, -50%));
+                        color: #fff;
+                        font-size: 45px;
+                        border-radius: 60%;
+                        @include animate(all, 320ms);
+                        cursor: pointer;
+                    }
+                }
+            }
+            .profile-picture {
+                padding-bottom: 10px;
+                padding-top: 10px;
+                overflow: hidden;
+                @include animate(all, 320ms);
+                img {
+                    // height: 30vh;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                }
+                .fa-cog {
+                    display: none;
+                    z-index: -1;
+                    @include animate(all, 320ms);
+                }
+            }
+            .profile-info {
+                margin-top: 30px;
+                .editProfile {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+                    background-color: #009688;
+                    color: #fff;
+                    cursor: pointer;
+                    @include animate(all, 320ms);
+                    &:hover {
+                        @include animate(all, 320ms);
+                        opacity: 0.8;
+                    }
+                    &.editMode {
+                        @include animate(all, 320ms);
+                        background-color: #333;
+                        color: #009688;
+                        
+                    }
+                }
+                .logOut {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+                    background-color: #009688;
+                    color: #fff;
+                    cursor: pointer;
+                    @include animate(all, 320ms);
+                    &:hover {
+                        @include animate(all, 320ms);
+                        opacity: 0.8;
+                    }
+                }
+                .username,
+                .email,
+                .favorites {
+                    i {
+                        color: #009688;
+                        margin-right: 5px;
+                    }
+                }
+                .username {
+                    margin-top: 10px;
+                    text-align: left;
+                    i {
+                        font-size: 18px;
+                    }
+                   #username{
+                       display: inline-block;
+                       
+                   }
+                }
+                .email {
+                    margin-top: 10px;
+                    text-align: left;
+                }
+                .favorites {
+                    margin-top: 10px;
+                    text-align: left;
+                }
+            }
+            .profile-menu {
+                .profile-menu-item {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+                    background-color: #009688;
+                    color: #fff;
+                    cursor: pointer;
+                    @include animate(all, 320ms);
+                    &:hover {
+                        @include animate(all, 320ms);
+                        opacity: 0.8;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.changerMenu {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+    .changerMenu-item {
+        display: none;
+        &.active {
+            display: block;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 /*****************************************************************************/
 /* Company: Functions */
 /*****************************************************************************/
+var synaptic = require('synaptic');
 
 async function getData(SYMBOL, Handler) {
 
@@ -29,7 +30,7 @@ function newsItem(title, content, date) {
     });
 }
 function placeIndicators(data) {
-    console.log(data);
+    
     var indicator = function (name, value) {
         $('.indicators-box .' + name + ' .indicator').text(value);
     };

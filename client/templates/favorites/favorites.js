@@ -68,7 +68,9 @@ Template.Favorites.helpers({
 Template.Favorites.onCreated(function () {
     var companies = this.data.companies;
     var comps = stringifyComps(companies);
-
+    if(!Meteor.userId())
+        console.log("not logged");
+    else
     getData(comps, function (response) {
 
         Object.entries(response.data).forEach(function ([key, value]) {
