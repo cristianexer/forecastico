@@ -50,6 +50,7 @@ Template.Profile.onCreated(function () {
 });
 
 Template.Profile.onRendered(function () {
+    var userProfile = getProfile();
     $('.editProfile').on('click',function(){
         $(this).toggleClass('editMode');
         $('.profile-data').toggleClass('editMode');
