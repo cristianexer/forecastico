@@ -8,4 +8,5 @@ Meteor.methods({
     //     if (Roles.userIsInRole(Meteor.userId(), 'Admin'))
     //        callback();
     // }
+    
 });

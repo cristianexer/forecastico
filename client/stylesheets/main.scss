@@ -10,7 +10,7 @@
 body {
     background-color: #fff;
 }
-
+$primary: $forecastico !important;
 .main {}
 
 a:focus,
@@ -26,12 +26,12 @@ input[type="file"]>input[type="button"]::-moz-focus-inner {
 
 .btn {
     background-color: #eee !important;
-    color: #009688 !important;
+    color: $forecastico !important;
     @include animate(all, 320ms);
     &:hover {
         @include animate(all, 320ms);
         color: #fff !important;
-        background-color: #009688 !important;
+        background-color: $forecastico !important;
     }
 }
 
@@ -67,3 +67,11 @@ input[type="file"]>input[type="button"]::-moz-focus-inner {
         @include animation('increase 1.9s infinite');
     }
 }
+
+//////override
+
+.form-control,
+.form-group .form-control {
+  
+}
+/////override

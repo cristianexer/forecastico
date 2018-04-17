@@ -2,10 +2,9 @@
 ====================
 	MIXINS
 ====================
-
-
-
 */
+
+@import "{}/client/stylesheets/vars.scss";
 @mixin background($color, $opacity) {
     background-color: $color; /* The Fallback */
     background-color: rgba($color, $opacity);

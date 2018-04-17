@@ -9,9 +9,10 @@ template(name='Company')
             .col-xs-12.company-graphic
               .col-xs-12.col-md-6
                 .col-xs-12.text-center Closed Prices 
-                canvas#canvas
+                canvas#closedPrices.miniLoader 
               .col-xs-12.col-md-6
-                .col-xs-12.text-center Prediction             
+                .col-xs-12.text-center Prediction        
+                canvas#prediction.miniLoader     
           .col-xs-12.company-boxes
             .row
               .col-xs-12.col-md-4.description-box

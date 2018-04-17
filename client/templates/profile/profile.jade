@@ -6,11 +6,7 @@ template(name='Profile')
             .col-xs-12.profile-data
               .col-xs-12.col-md-3.profile-picture
                 .col-xs-12.pic-container
-                  if equal profile.profilepicture "none"
-                    img.img.img-responsive(src="/images/avatar.png")
-                  else
-                    img.img.img-responsive(src="/profiles/#{me._id}/#{profile.profilepicture}.jpg")
-                  i.fa.fa-cog#imgChanger
+                  img.img.img-responsive(src=avatar)
               .col-xs-12.col-md-9.profile-info
                 .row
                   .col-xs-12.col-md-9
@@ -19,15 +15,14 @@ template(name='Profile')
                       #username=profile.nickname
                     .col-xs-12.email
                         i.fa.fa-envelope
-                        each me.emails
-                          | #{address}
+                        | #{myEmail}
                     .col-xs-12.favorites
                       i.fa.fa-heart
                       | Favorites:
                       span.fav-number=favorites
                   .col-xs-12.col-md-3
                     .col-xs-12
-                      .col-xs-12.editProfile(data-target="#editProfile") Edit Profile
+                      .col-xs-12.editProfile.profile-menu-item(data-target="#editProfile") Edit Profile
                     .col-xs-12
                       .col-xs-12.logOut Log Out
               if isInRole "Admin"
@@ -38,16 +33,22 @@ template(name='Profile')
                     .col-xs-12.profile-menu-item(data-target="#editCompanies") Edit Companies
                   .col-xs-12.col-md-4
                     .col-xs-12.profile-menu-item(data-target="#editRights") Edit Users Rights
-    if isInRole "Admin"
+
       .col-xs-12.col-md-8.col-md-offset-2
         .col-xs-12
           .col-xs-12.changerMenu
-            .col-xs-12.changerMenu-item#addCompany.active
-              +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
-            .col-xs-12.changerMenu-item#editCompanies
-              .col-xs-12 Companies
-            .col-xs-12.changerMenu-item#editRights
-              .col-xs-12 Users
+            .col-xs-12.changerMenu-item#editProfile
+              .col-xs-12 Edit Profile
+              .col-xs-12 Username
+              .col-xs-12 Profile Picture
+            if isInRole "Admin"
+              .col-xs-12.changerMenu-item#addCompany.active
+                +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
+              .col-xs-12.changerMenu-item#editCompanies
+                .col-xs-12 Companies
+              .col-xs-12.changerMenu-item#editRights
+                .col-xs-12 Users
+              
      
   else
     .col-xs-12

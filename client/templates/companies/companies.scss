@@ -8,7 +8,7 @@
 
 @import "{}/client/stylesheets/mixins.scss";
 .company-card {
-    background-color: #009688;
+    background-color: $forecastico;
     border-radius: 4px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -68,10 +68,10 @@
             margin: 0 5px;
             cursor: pointer;
             &:hover {
-                color: #009688;
+                color: $forecastico;
             }
             &.active {
-                color: #009688;
+                color: $forecastico;
             }
         }
     }

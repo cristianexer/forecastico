@@ -12,7 +12,7 @@
     background-color: #eee;
     .company-header {
         color: #fff;
-        background-color: #009688;
+        background-color: $forecastico;
         padding-top: 10px;
         padding-bottom: 10px;
         .company-name,
@@ -43,7 +43,7 @@
             }
             .news-container {
                 .news-item {
-                    background: #009688;
+                    background: $forecastico;
                     color: #fff;
                     margin-bottom: 10px;
                     margin-top: 10px;

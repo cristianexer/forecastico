@@ -39,7 +39,7 @@
         @include transform(translate(-50%,-50%));
         border-radius: 50%;
         
-        background-color: rgba(56, 163, 110, 0.5);
+        @include background($forecastico,0.5);
         @include animation('increase 1.9s infinite');
 
     }

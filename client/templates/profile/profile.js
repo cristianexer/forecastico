@@ -1,20 +1,6 @@
 /*****************************************************************************/
 /* Profile: Functions */
 /*****************************************************************************/
-function getProfile() {
-    if (Profile.findOne({ userId: Meteor.userId() })) {
-        return Profile.findOne({ userId: Meteor.userId() });
-    }
-    else {
-        Profile.insert({
-            nickname: "none",
-            profilepicture: "none",
-            userId: Meteor.userId()
-        });
-    }
-    return Profile.findOne({ userId: Meteor.userId() });
-
-}
 
 function editNickname(nickname){
     var profileId = getProfile()._id;
@@ -23,13 +9,21 @@ function editNickname(nickname){
     });    
 
 }
-function editProfilePicture(path){
 
-}
+
 /*****************************************************************************/
 /* Profile: Event Handlers */
 /*****************************************************************************/
 Template.Profile.events({
+    'click .logOut':function(){
+        Meteor.logout();
+    },
+    'click .profile-menu-item':function(event){
+        let target = event.target.dataset.target;
+        $('.changerMenu .changerMenu-item').removeClass('active');
+        $(target).addClass('active');
+    }
+
 });
 
 /*****************************************************************************/
@@ -39,6 +33,17 @@ Template.Profile.helpers({
     
     'equal':function(a,b){
         return (a === b)
+    },
+    
+    'avatar':function(){
+        let picture = this.profile.profilepicture;
+        if(picture != "none")
+            return "/profiles/" + Meteor.userId() + "/" + picture;
+
+        return "/images/avatar.png"
+    },
+    'myEmail':function(){
+        return this.me.emails[0].address;
     }
 
 });
@@ -47,44 +52,11 @@ Template.Profile.helpers({
 /* Profile: Lifecycle Hooks */
 /*****************************************************************************/
 Template.Profile.onCreated(function () {
+ 
 });
 
 Template.Profile.onRendered(function () {
-    var userProfile = getProfile();
-    $('.editProfile').on('click',function(){
-        $(this).toggleClass('editMode');
-        $('.profile-data').toggleClass('editMode');
-        var edit = $(this).text();
-        var username = $('#username').text();
-        var inputTag = '<input type="text" value="' + username + '" id="usernameControl"/>';
-        if(edit == "Edit Profile"){
-        $(this).text("Save");
-        $('#username').html(inputTag);
-        
-       $('#usernameControl').on('keyup', function () {
-            var value = $(this).val();
-           editNickname(value);
-        
-       });
-        }
-        else{
-        $(this).text("Edit Profile");
-        $('#username').text(temp);
-        var temp = $('#usernameControl').val();
-        $('#usernameControl').remove();
-        
-               
-        }
-        
-    });
     
-
-    $('.profile-menu-item').on('click',function(){
-        var target = $(this).data('target');
-        $('.changerMenu .changerMenu-item').removeClass('active');
-        $(target).addClass('active');
-    });
-
     
 });
 

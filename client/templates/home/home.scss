@@ -8,7 +8,7 @@
 
 @import "{}/client/stylesheets/mixins.scss";
 .news-box-home {
-    background-color: #009688;
+    background-color: $forecastico;
     color: #fff;
     overflow: hidden; // overflow-y: scroll;
     // height: 33vh;
@@ -67,6 +67,6 @@
 }
 
 .last-box-home {
-    background-color: #245fac;
+    background-color: $forecastico;
     min-height: 33vh;
 }

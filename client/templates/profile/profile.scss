@@ -16,38 +16,7 @@
         min-height: 20vh;
         .profile-data {
             text-align: center;
-            &.editMode {
-                @include animate(all, 320ms);
-                .profile-picture {
-                    .pic-container {
-                        position: relative;
-                        &:after {
-                            content: "";
-                            background-color: rgba(0, 0, 0, 0.5);
-                            position: absolute;
-                            left: 15px;
-                            right: 15px;
-                            bottom: 0;
-                            top: 0;
-                            border-radius: 50%;
-                            @include animate(all, 320ms);
-                        }
-                    }
-                    .fa-cog {
-                        display: block;
-                        z-index: 3;
-                        position: absolute;
-                        left: 50%;
-                        top: 50%;
-                        @include transform(translate(-50%, -50%));
-                        color: #fff;
-                        font-size: 45px;
-                        border-radius: 60%;
-                        @include animate(all, 320ms);
-                        cursor: pointer;
-                    }
-                }
-            }
+
             .profile-picture {
                 padding-bottom: 10px;
                 padding-top: 10px;
@@ -71,7 +40,7 @@
                     padding-bottom: 10px;
                     margin-top: 3px;
                     margin-bottom: 3px;
-                    background-color: #009688;
+                    background-color: $forecastico;
                     color: #fff;
                     cursor: pointer;
                     @include animate(all, 320ms);
@@ -82,7 +51,7 @@
                     &.editMode {
                         @include animate(all, 320ms);
                         background-color: #333;
-                        color: #009688;
+                        color: $forecastico;
                         
                     }
                 }
@@ -91,7 +60,7 @@
                     padding-bottom: 10px;
                     margin-top: 3px;
                     margin-bottom: 3px;
-                    background-color: #009688;
+                    background-color: $forecastico;
                     color: #fff;
                     cursor: pointer;
                     @include animate(all, 320ms);
@@ -104,7 +73,7 @@
                 .email,
                 .favorites {
                     i {
-                        color: #009688;
+                        color: $forecastico;
                         margin-right: 5px;
                     }
                 }
@@ -134,7 +103,7 @@
                     padding-bottom: 10px;
                     margin-top: 3px;
                     margin-bottom: 3px;
-                    background-color: #009688;
+                    background-color: $forecastico;
                     color: #fff;
                     cursor: pointer;
                     @include animate(all, 320ms);

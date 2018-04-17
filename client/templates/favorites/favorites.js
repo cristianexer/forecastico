@@ -1,39 +1,7 @@
 /*****************************************************************************/
 /* Favorites: Event Handlers */
 /*****************************************************************************/
-async function getData(SYMBOL, Handler) {
 
-    var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=news,quote&range=1m&last=1';
-
-    await HTTP.get(final, {}, function (error, response) {
-        if (error) {
-            console.log(error);
-        } else {
-            //return response
-            Handler(response);
-        }
-    });
-
-}
-function stringifyComps(arr) {
-    var str = "";
-    arr.map(function (res, key) {
-        str = str + res.symbol + ",";
-    });
-    str[str.length - 1] = "";
-    return str;
-}
-
-function placeIndicators(id, arr) {
-    var indicatorAdjClose = arr[0] > arr[1] ? "up" : "down";
-    var value = arr[0];
-    var element = $('#' + id + " .indicator");
-    element.append('<i class="fa fa-arrow-circle-' + indicatorAdjClose + '"></i>');
-    element.addClass(indicatorAdjClose);
-    $('#' + id + " .amount").text(value);
-
-
-}
 
 Template.Favorites.events({
     'click .fa-area-chart': function () {
@@ -67,15 +35,15 @@ Template.Favorites.helpers({
 /*****************************************************************************/
 Template.Favorites.onCreated(function () {
     var companies = this.data.companies;
-    var comps = stringifyComps(companies);
+    var comps = Meteor.myFunctions.stringifyComps(companies);
     if(!Meteor.userId())
         console.log("not logged");
     else
-    getData(comps, function (response) {
+    Meteor.myFunctions.callIEX(comps, function (response) {
 
         Object.entries(response.data).forEach(function ([key, value]) {
 
-            placeIndicators(
+            Meteor.myFunctions.placeIndicators(
                 key,
                 [
                     value.quote.close,//today close price

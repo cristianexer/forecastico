@@ -5,9 +5,14 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.40",
+    "@babel/runtime": "^7.0.0-beta.44",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
+    "brain.js": "^1.1.2",
+    "events": "^2.0.0",
+    "fs": "0.0.1-security",
+    "meteor-node-stubs": "^0.3.3",
+    "path": "^0.12.7",
     "simpl-schema": "^1.4.2",
     "synaptic": "^1.1.4"
   },

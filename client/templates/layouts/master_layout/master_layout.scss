@@ -20,10 +20,10 @@
                 color:#aaa;
                 @include animate(all,320ms);
                 &.active{
-                    color:#009688;
+                    color:$forecastico;
                 }
                 &:hover{
-                    color:#009688;
+                    color:$forecastico;
                     @include animate(all,320ms);
                 }
             }

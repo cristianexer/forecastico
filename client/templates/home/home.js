@@ -3,20 +3,7 @@
 /* Home: Functions */
 /*****************************************************************************/
 
-async function getData(SYMBOL, Handler) {
 
-    var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols='+ SYMBOL +'&types=news,timeseries&range=1m&last=1';
-
-    await HTTP.get(final, {}, function (error, response) {
-        if (error) {
-            console.log(error);
-        } else {
-            //return response
-            Handler(response);
-        }
-    });
-
-}
 function newsItem(title, content, date) {
     var created = '<div class="col-xs-12"><div class="col-xs-12 news-item"><div class="col-xs-12 news-title">' + title + '</div><div class="col-xs-12 news-date">' + date + '</div><div class="col-xs-12 news-content">' + content + '</div></div></div>'
     
@@ -25,36 +12,9 @@ function newsItem(title, content, date) {
     $('.news-box-home .news-item').on('click', function () {
         $('.news-item').removeClass('expand');
         $(this).toggleClass('expand');
-        //$(this).parent().toggleClass('col-md-4');
     });
 }
 
-
-function sanitizeData(data){
-    var dates = [];
-    var closeds = [];
-    //console.log(data);
-    data.map(function(res,key){
-        closeds.push(res.close);
-        dates.push(res.date);
-    });
-    return{
-        dates : dates, closeds : closeds
-    };
-}
-
- function stringifyComps(arr){
-     var str="";
-    arr.map(function(res,key){
-        str= str + res.symbol+",";
-    });
-    str[str.length-1]="";
-    return str;
- }
-
- function getRandomHexColor() {
-     return '#' + Math.floor(Math.random() * 16777215).toString(16);
- }
  
 /*****************************************************************************/
 /* Home: Event Handlers */
@@ -77,8 +37,8 @@ Template.Home.onCreated(function () {
 
 Template.Home.onRendered(function () {
     var companies = this.data.companies;
-    var comps = stringifyComps(companies);
-    getData(comps, function (response) {
+    var comps = Meteor.myFunctions.stringifyComps(companies);
+    Meteor.myFunctions.timeseriesIEX(comps, function (response) {
        var ctx = document.getElementById("trend-chart").getContext("2d");
        var options = {
             legend: {
@@ -90,24 +50,18 @@ Template.Home.onRendered(function () {
            responsive: true,
            scaleFontColor: "#fff",
            scaleFontSize: 10,
-          // maintainAspectRatio: false
-           //animation:false
        };
        var data = {
            labels: [],
            datasets: []
        };
-       // if(res.summary.length > 25)
-        //newsItem(res.headline, res.summary, res.datetime);
-            // response.data.forEach(function(res){
-            //     console.log(res);
-            // });
+
             Object.entries(response.data).forEach(function ([key, value]){
-                //console.log();
                 
-                var temp = sanitizeData(value.timeseries);
-                var color = getRandomHexColor();
-                //console.log(value.timeseries);
+                
+                var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
+                var color = Meteor.myFunctions.getRandomHexColor();
+                
                 data.labels = temp.dates;
                 data.datasets.push({
                     label: ""+value,
