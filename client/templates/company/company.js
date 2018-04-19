@@ -120,11 +120,11 @@ Template.Company.onRendered(function () {
         net.train(trainingData);//train the network
 
         let value = timeseries[timeseries.length - 3];
-
-        let arr = Meteor.myFunctions.iexIdentifierObject(value);
+        // console.log(trainingData);
+        let arr = Meteor.myFunctions.normalizeObject(Meteor.myFunctions.iexIdentifierObject(value), timeseries);
 
         let prediction = brain.likely(arr, net);
-        console.log(`We have entered ( ${Meteor.myFunctions.iexIdentifierObject(value).close} ) and we expect ( ${timeseries[timeseries.length - 2].close} ) result is ${prediction} `);
+        // console.log(`We have entered ( ${Meteor.myFunctions.iexIdentifierObject(value).close} ) and we expect ( ${timeseries[timeseries.length - 2].close} ) result is ${prediction} `);
         var ctx = document.getElementById("prediction").getContext("2d");
         var options = {
             legend: {
@@ -144,7 +144,7 @@ Template.Company.onRendered(function () {
             datasets: []
         };
 
-        chartData.labels = [timeseries[timeseries.length - 5].date, timeseries[timeseries.length - 4].date, timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
+        chartData.labels = [ timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
         chartData.datasets.push({
             label: "" + timeseries[timeseries.length - 2].close,
             fillColor: "rgba(220,220,220,0.1)",
@@ -153,7 +153,7 @@ Template.Company.onRendered(function () {
             pointStrokeColor: "orange",
             pointHighlightFill: "orange",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [timeseries[timeseries.length - 5].close, timeseries[timeseries.length - 4].close, timeseries[timeseries.length - 3].close, timeseries[timeseries.length - 2].close, prediction],
+            data: [ timeseries[timeseries.length - 3].close, timeseries[timeseries.length - 2].close, prediction],
         });
        
         var myLineChart = new Chart(ctx).Line(chartData, options);

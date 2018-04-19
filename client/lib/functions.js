@@ -4,20 +4,7 @@
 
 
 Meteor.myFunctions = {
-    callQuandl: async function (SYMBOL, Handler) {
 
-        var final = 'https://www.quandl.com/api/v3/datasets/WIKI/' + SYMBOL + '/data.json?start_date=2016-01-01&column_index=11&order=asc&api_key=FHgZKM4zrgcJkQs5TiHv';
-
-        await HTTP.get(final, {}, function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-
-                Handler(response.data.dataset_data.data);
-            }
-        });
-
-    },
     callIEX: async function (SYMBOL, Handler) {
 
         var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=news,quote&range=1m&last=1';
@@ -89,15 +76,15 @@ Meteor.myFunctions = {
     toDate: function (UNIX_Timestamp){
         return new Date(UNIX_Timestamp * 1000);
     },
-    getMinMaxOfDataArr: function (data) {
-        var min = data[0].close,
-            max = data[0].close;
+    getMinMaxOfDataArr: function (data,k) {
+        var min = data[0][k],
+            max = data[0][k];
 
         data.map(function (result, key) {
-            if (result.close < min)
-                min = result.close;
-            if (result.close > max)
-                max = result.close;
+            if (result[k] < min)
+                min = result[k];
+            if (result[k] > max)
+                max = result[k];
         });
         return {
             max: max,
@@ -120,9 +107,7 @@ Meteor.myFunctions = {
         let dataform = {
             input: {
                 change: obj.change,
-                changePercent: obj.changePercent,
                 open: obj.open,
-                low: obj.low,
                 close: obj.close,
             },
             output: {}
@@ -131,24 +116,13 @@ Meteor.myFunctions = {
 
         return dataform;
     },
-    dataFormat: function (value,change, output) {
-        let dataform = {
-            input: {
-                changePercent:change,
-                value: value,
-            },
-            output: {}
-        };
-        dataform.output[output] = 1;
 
-        return dataform;
-    },
     changingPercent: function(two, one) {
         let change = ((one - two) / one) * 10;
         change = change > 0 ? change * 1 : change * -1;
         return change;
     },
-    normalize: function (data) {
+    normalize: function (data) { 
         var minMax = Meteor.myFunctions.getMinMaxOfDataArr(data);
 
         data.map((res, key) => {
@@ -158,34 +132,36 @@ Meteor.myFunctions = {
     },
     iexIdentifierObject:function(obj){
         return{
-            date:obj.date,
             change: obj.change,
-            changePercent: obj.changePercent,
-            high: obj.high,
-            low: obj.low,
+            open:obj.open,
             close: obj.close,
         };
+    },
+    normalizeObject: function (obj, data) {//key for normalize minMax of features
+        let minMaxClose = Meteor.myFunctions.getMinMaxOfDataArr(data,"close");
+        let minMaxOpen = Meteor.myFunctions.getMinMaxOfDataArr(data, "open");
+        let minMaxChange = Meteor.myFunctions.getMinMaxOfDataArr(data, "change");
+        obj.change = obj.change < 0 ? (obj.change * -1) : obj.change;
+
+        return{
+            change: (obj.change - minMaxChange.min) / (minMaxChange.max - minMaxOpen.min),
+            open: (obj.open - minMaxOpen.min) / (minMaxOpen.max - minMaxOpen.min),
+            close: (obj.close - minMaxClose.min) / (minMaxClose.max - minMaxClose.min),
+        }
     },
     iexDataHandler:function(data){
 
         var trainingData = [];
 
         for (let i = 1; i < data.length - 2; i++) {
-            trainingData.push(Meteor.myFunctions.iexDataFormat(data[i], data[i+1].close));
+            trainingData.push(
+                Meteor.myFunctions.iexDataFormat(
+                    Meteor.myFunctions.normalizeObject(data[i],data),
+                     data[i+1].close)
+                    );
         }
 
 
-
-        return trainingData;
-    },
-    dataHandler: function (data) {
-        var trainingData = [];
-
-        for (let i = 1; i < data.length - 2; i++) {
-            trainingData.push(Meteor.myFunctions.dataFormat(data[i][1], Meteor.myFunctions.changingPercent(data[i-1][1],data[i][1]), data[i + 1][1]));
-        }
-
-     
 
         return trainingData;
     },

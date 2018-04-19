@@ -58,13 +58,13 @@ Template.Home.onRendered(function () {
 
             Object.entries(response.data).forEach(function ([key, value]){
                 
-                
+                console.log(value);
                 var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
                 var color = Meteor.myFunctions.getRandomHexColor();
                 
                 data.labels = temp.dates;
                 data.datasets.push({
-                    label: ""+value,
+                    label: `${value.quote.companyName} : ${value}`,
                     fillColor: "rgba(220,220,220,0.1)",
                     strokeColor: "" + color,
                     pointColor: ""+color,
