@@ -7,12 +7,12 @@ template(name='Company')
             .col-xs-6.company-name=company.company
             .col-xs-6.text-right.company-symbol=company.symbol
             .col-xs-12.company-graphic
-              .col-xs-12.col-md-6
+              .col-xs-12.col-md-8.col-md-offset-2.closedChart.miniLoader 
                 .col-xs-12.text-center Closed Prices 
-                canvas#closedPrices.miniLoader 
-              .col-xs-12.col-md-6
+                canvas#closedPrices
+              .col-xs-12.col-md-8.col-md-offset-2.predictionChart.miniLoader 
                 .col-xs-12.text-center Prediction        
-                canvas#prediction.miniLoader     
+                canvas#prediction    
           .col-xs-12.company-boxes
             .row
               .col-xs-12.col-md-4.description-box

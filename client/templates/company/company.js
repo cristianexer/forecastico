@@ -4,7 +4,7 @@
 const brain = require('brain.js');
 var net = new brain.NeuralNetwork({
     activation: 'relu', // activation function
-    hiddenLayers: [4],
+    hiddenLayers: [2,3],
     learningRate: 0.4 // global learning rate, useful when training using streams
 });
 
@@ -62,7 +62,7 @@ Template.Company.onCreated(function () {
 
 Template.Company.onRendered(function () {
    var company= this.data.company.symbol;
-   
+
     Meteor.myFunctions.fullCallIEX(company, function (response) {
         var ctx = document.getElementById("closedPrices").getContext("2d");
         var options = {
@@ -108,26 +108,28 @@ Template.Company.onRendered(function () {
        
         
         var myLineChart = new Chart(ctx).Line(data, options);
-        $('#closedPrices').removeClass('miniLoader');
+        $('.closedChart').removeClass('miniLoader');
     });
 
-    Meteor.myFunctions.callQuandl(company, (data) => {
-        let trainingData = Meteor.myFunctions.dataHandler(data);
+    Meteor.myFunctions.oneYearTimeseriesIEX(company, (rs) => {
 
-        let date = Meteor.myFunctions.getDateNow();
+        let timeseries = rs.data[company].timeseries;
+
+        let trainingData = Meteor.myFunctions.iexDataHandler(timeseries);
+        trainingData.splice(trainingData.length - 1);
         net.train(trainingData);//train the network
 
-        let value = data[data.length - 1][1];
+        let value = timeseries[timeseries.length - 3];
 
-        let arr = { date: date, value: value };
+        let arr = Meteor.myFunctions.iexIdentifierObject(value);
 
-        let prediction =  brain.likely(arr, net);
-
+        let prediction = brain.likely(arr, net);
+        console.log(`We have entered ( ${Meteor.myFunctions.iexIdentifierObject(value).close} ) and we expect ( ${timeseries[timeseries.length - 2].close} ) result is ${prediction} `);
         var ctx = document.getElementById("prediction").getContext("2d");
         var options = {
             legend: {
                 display: true,
-                position: 'left',
+                //position: 'left',
                 labels: {
                     fontColor: "#fff",
                 }
@@ -142,23 +144,23 @@ Template.Company.onRendered(function () {
             datasets: []
         };
 
-        chartData.labels = [data[data.length - 5][0], data[data.length - 4][0], data[data.length - 3][0], data[data.length - 2][0], data[data.length - 1][0]];
+        chartData.labels = [timeseries[timeseries.length - 5].date, timeseries[timeseries.length - 4].date, timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
         chartData.datasets.push({
-            label: "" + data[data.length - 2][1],
+            label: "" + timeseries[timeseries.length - 2].close,
             fillColor: "rgba(220,220,220,0.1)",
             strokeColor: "orange",
             pointColor: "orange",
             pointStrokeColor: "orange",
             pointHighlightFill: "orange",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [data[data.length - 5][1], data[data.length - 4][1], data[data.length - 3][1], data[data.length - 2][1] ,prediction],
+            data: [timeseries[timeseries.length - 5].close, timeseries[timeseries.length - 4].close, timeseries[timeseries.length - 3].close, timeseries[timeseries.length - 2].close, prediction],
         });
        
         var myLineChart = new Chart(ctx).Line(chartData, options);
-        $('#prediction').removeClass('miniLoader');
+        $('.predictionChart').removeClass('miniLoader');
     });
   
-	
+    
 });
 
 Template.Company.onDestroyed(function () {

@@ -32,6 +32,20 @@ Meteor.myFunctions = {
         });
 
     },
+    oneYearTimeseriesIEX: async function (SYMBOL, Handler) {
+
+        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=timeseries&range=1y&last=1';
+
+        await HTTP.get(final, {}, function (error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+                //return response
+                Handler(response);
+            }
+        });
+
+    },
     timeseriesIEX: async function (SYMBOL, Handler) {
 
         var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=quote,news,timeseries&range=1m&last=1';
@@ -76,25 +90,51 @@ Meteor.myFunctions = {
         return new Date(UNIX_Timestamp * 1000);
     },
     getMinMaxOfDataArr: function (data) {
-        var min = data[0][1],
-            max = data[0][1];
+        var min = data[0].close,
+            max = data[0].close;
 
         data.map(function (result, key) {
-            if (result[1] < min)
-                min = result[1];
-            if (result[1] > max)
-                max = result[1];
+            if (result.close < min)
+                min = result.close;
+            if (result.close > max)
+                max = result.close;
         });
         return {
             max: max,
             min: min
         };
     },
-    dataFormat: function (value, date, output) {
+    iexDataFormat : function(obj,output){
+        //change
+        //changeOverTime
+        //changePercent
+        //close
+        //date
+        //high
+        //label
+        //low
+        //open
+        //unadjustedVolume
+        //volume
+        //vwap
         let dataform = {
             input: {
-                date: Meteor.myFunctions.toTimestamp(date),
-                // changeProcent:,
+                change: obj.change,
+                changePercent: obj.changePercent,
+                open: obj.open,
+                low: obj.low,
+                close: obj.close,
+            },
+            output: {}
+        };
+        dataform.output[output] = 1;
+
+        return dataform;
+    },
+    dataFormat: function (value,change, output) {
+        let dataform = {
+            input: {
+                changePercent:change,
                 value: value,
             },
             output: {}
@@ -103,24 +143,49 @@ Meteor.myFunctions = {
 
         return dataform;
     },
+    changingPercent: function(two, one) {
+        let change = ((one - two) / one) * 10;
+        change = change > 0 ? change * 1 : change * -1;
+        return change;
+    },
     normalize: function (data) {
-        var minMax = Meteor.myFunction.getMinMax(data);
+        var minMax = Meteor.myFunctions.getMinMaxOfDataArr(data);
 
         data.map((res, key) => {
-            res[1] = (res[1] - minMax.min) / (minMax.max - minMax.min);
+            res.close = (res.close - minMax.min) / (minMax.max - minMax.min);
         });
         return data;
     },
+    iexIdentifierObject:function(obj){
+        return{
+            date:obj.date,
+            change: obj.change,
+            changePercent: obj.changePercent,
+            high: obj.high,
+            low: obj.low,
+            close: obj.close,
+        };
+    },
+    iexDataHandler:function(data){
 
+        var trainingData = [];
+
+        for (let i = 1; i < data.length - 2; i++) {
+            trainingData.push(Meteor.myFunctions.iexDataFormat(data[i], data[i+1].close));
+        }
+
+
+
+        return trainingData;
+    },
     dataHandler: function (data) {
         var trainingData = [];
 
         for (let i = 1; i < data.length - 2; i++) {
-            trainingData.push(Meteor.myFunctions.dataFormat(data[i][1], data[i][0], data[i + 1][1]));
+            trainingData.push(Meteor.myFunctions.dataFormat(data[i][1], Meteor.myFunctions.changingPercent(data[i-1][1],data[i][1]), data[i + 1][1]));
         }
 
-        //console.log(trainingData);
-        //trainingData.splice(trainingData.length - 1);
+     
 
         return trainingData;
     },
