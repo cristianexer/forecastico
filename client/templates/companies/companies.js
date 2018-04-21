@@ -13,20 +13,43 @@ Template.Companies.events({
     window.location.href = 'company/' + symbol;
 },
   'click .fa-heart': function () {
-    var item = {
-      user: Meteor.user()._id,
-      symbol: this.symbol,
-      company:this.company
-    };
-    
-    $('#' + this.symbol + " .favorite-company i.fa-heart").toggleClass('active');
-    
-    if (Favorites.findOne(item))
-      Favorites.remove(Favorites.findOne(item)._id);
-    else
-     Favorites.insert(item);
-     
-  }
+    if (Meteor.userId() != null) {
+        var item = {
+          user: Meteor.user()._id,
+          symbol: this.symbol,
+          company:this.company
+        };
+        
+        $('#' + this.symbol + " .favorite-company i.fa-heart").toggleClass('active');
+        
+        if (Favorites.findOne(item)){
+          Favorites.remove(Favorites.findOne(item)._id);
+          Meteor.myFunctions.notification(
+            type = "change",
+            content = `${this.company} was removed from your favorite list.`
+          );
+        }          
+        else{
+          Favorites.insert(item);
+          Meteor.myFunctions.notification(
+            type = "change",
+            content = `${this.company} was added to your favorite list.`
+          );
+        }
+        
+
+      
+        
+      }
+      else{
+      Meteor.myFunctions.notification(
+          type="error",
+          content = "You are not logged in",
+          hyperLink = '/profile',
+          linkName = 'Log In'
+        );
+      }
+    },
 });
 
 /*****************************************************************************/

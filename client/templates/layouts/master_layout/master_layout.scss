@@ -7,7 +7,7 @@
     bottom:0;
     left:0;
     right:0;
-    z-index: 999;
+    z-index: 99999 !important;
     .innerNav{
         background-color: #fff;
         border-bottom:4px solid #111;
@@ -29,4 +29,152 @@
             }
         }
     }
+}
+
+#notification{
+    background-color: #eee;
+    position: fixed;
+    //height: 5rem;
+    margin-top: 1rem;
+    z-index: 999 !important;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.4);
+    border-radius: 6px;
+    overflow: hidden;
+    @include animate(all, 520ms);
+    @include transform(translateY(-100px));
+    &.active {
+        @include transform(translateY(0px));
+    }
+    .closeNotif{
+        position: absolute;
+        right: 5px;
+        top:5px;
+        font-size: 15px;
+        text-align: center;
+        cursor: pointer;
+        padding: 0px 7px;
+        text-decoration: none;
+        z-index: 9999 !important;
+        color:#fff;
+        background-color: $forecastico;
+        border-radius: 50%;
+        @include animate(all,320ms);
+        &:hover{
+            background-color: #fff;;
+            color:$forecastico;
+        }
+    }
+    .notifHeaderWrapper{
+        background-color: $forecastico;
+    }
+    .title{
+        margin-top: 10px;
+        font-size: 14px;
+        letter-spacing: 0.05rem;
+        padding-bottom: 3px;
+        border-radius: 2px;
+        color:#fff;
+    }
+    .content{
+        
+        margin-top: 7px;
+        margin-bottom: 7px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-size: 14px;
+        letter-spacing: 0.05rem; 
+        word-spacing: 0.3rem;
+        @include background($forecastico,0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: 5px;
+            @include background($forecastico, 0.3);
+        }
+
+        &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 5px;
+            @include background($forecastico, 0.3);
+        }
+    }
+    &.error{
+        .content{
+            @include background(red,0.1);
+            &:before{
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    height: 5px;
+                    @include background(red, 0.3);
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                height: 5px;
+                @include background(red, 0.3);
+            }
+        }
+    }
+    &.change {
+        .content {
+            @include background(green, 0.1);
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                height: 5px;
+                @include background(green, 0.3);
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                height: 5px;
+                @include background(green, 0.3);
+            }
+        }
+    }
+    .link{
+        display: none;
+        &.active{
+            display: block;
+        }
+        a{
+            display: block;
+            color:#fff;
+            background-color: #aaa;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top:5px;
+            margin-bottom: 5px;
+            font-size: 14px;
+            @include animate(all,320ms);
+            &:hover{
+                
+                background-color: $forecastico;
+            }
+        }
+    }
+
+
 }

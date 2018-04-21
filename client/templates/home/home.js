@@ -5,7 +5,7 @@
 
 
 function newsItem(title, content, date) {
-    var created = '<div class="col-xs-12"><div class="col-xs-12 news-item"><div class="col-xs-12 news-title">' + title + '</div><div class="col-xs-12 news-date">' + date + '</div><div class="col-xs-12 news-content">' + content + '</div></div></div>'
+    var created = '<div class="col-xs-12 col-md-4"><div class="col-xs-12 news-item"><div class="col-xs-12 news-title">' + title + '</div><div class="col-xs-12 news-date">' + date + '</div><div class="col-xs-12 news-content">' + content + '</div></div></div>'
     
     $('.news-box-home').append(created);
     
@@ -36,35 +36,28 @@ Template.Home.onCreated(function () {
 });
 
 Template.Home.onRendered(function () {
-    var companies = this.data.companies;
-    var comps = Meteor.myFunctions.stringifyComps(companies);
-    Meteor.myFunctions.timeseriesIEX(comps, function (response) {
-       var ctx = document.getElementById("trend-chart").getContext("2d");
-       var options = {
-            legend: {
-                display: true,
-                position: 'left',
-                labels: {
-                    fontColor: "#fff",
-                }},                     
+    var companies = this.data.companies; //get companies from controller var
+    var comps = Meteor.myFunctions.stringifyComps(companies); //stringify the arr of companies for API call
+    Meteor.myFunctions.timeseriesIEX(comps, function (response) { //call API
+       var ctx = document.getElementById("trend-chart").getContext("2d"); //get chart Wrapper
+       var options = {  //chart options                   
            responsive: true,
            scaleFontColor: "#fff",
-           scaleFontSize: 10,
+           scaleFontSize: 10, 
        };
-       var data = {
+       var data = { //chart data instance
            labels: [],
            datasets: []
        };
 
-            Object.entries(response.data).forEach(function ([key, value]){
+            Object.entries(response.data).forEach(function ([key, value]){ //loop key -> index , value - > item[key]
                 
-                console.log(value);
-                var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
-                var color = Meteor.myFunctions.getRandomHexColor();
-                
-                data.labels = temp.dates;
-                data.datasets.push({
-                    label: `${value.quote.companyName} : ${value}`,
+                var temp = Meteor.myFunctions.formatDataForChart(value.timeseries.slice(10)); //cut first 10 items from arr and pass to format function
+                var color = Meteor.myFunctions.getRandomHexColor(); //get random color
+                Meteor.myFunctions.legendItem('trendChartLegend',{color:color,name:value.quote.companyName}); //insert legend item
+                data.labels = temp.dates; //set labels with dates
+                data.datasets.push({ 
+                    label: `${value.quote.companyName}`,
                     fillColor: "rgba(220,220,220,0.1)",
                     strokeColor: "" + color,
                     pointColor: ""+color,
@@ -74,13 +67,13 @@ Template.Home.onRendered(function () {
                     data: temp.closeds
                 });
                 //console.log(response.data.timeseries);
-                if (value.news[0].summary.length > 25)
+
+                if (value.news[0].summary.length > 25) //if news content is bigger than 25 add to newsBox
                 newsItem(value.news[0].headline, value.news[0].summary, value.news[0].datetime);
 
             });
-           // console.log(response.data);
         
-                 var myLineChart = new Chart(ctx).Line(data, options);
+                 var myLineChart = new Chart(ctx).Line(data, options); //create chart
        
     });
 

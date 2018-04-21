@@ -64,9 +64,37 @@
     background-color: #333;
     //min-height: 40vh;
     overflow: hidden !important;
+   
+}
+.news-box-home{
+    //min-height: 350px;
+    padding-bottom: 50px;
 }
 
 .last-box-home {
     background-color: $forecastico;
     min-height: 33vh;
+}
+#trendChartLegend{
+    .legend{
+        color:#fff;
+    }
+    .legendItem{
+        margin-top: 5px;
+        margin-bottom: 5px;
+       
+        span{
+            height: 10px;
+            width: 100%;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .legendName{
+            color:#fff;
+            font-size: 13px;
+            display:block;
+            text-align: left;
+            padding-left: 3px;
+        }
+    }
 }

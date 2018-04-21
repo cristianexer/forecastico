@@ -42,18 +42,25 @@ template(name='Profile')
               .col-xs-12 Username
               .col-xs-12 Profile Picture
             if isInRole "Admin"
-              .col-xs-12.changerMenu-item#addCompany.active
+              .col-xs-12.changerMenu-item#addCompany
                 +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
-              .col-xs-12.changerMenu-item#editCompanies
-                .col-xs-12 Companies
+              .col-xs-12.changerMenu-item#editCompanies.active
+                each companies
+                  .col-xs-12.col-md-4.companyEditWrapper
+                    .comp=company
+                    +autoForm(collection="Symbols" doc=this id=symbol type="update" buttonContent="Update")
+                      +afQuickFields
+                      button.btn.btn-primary Update
+                      +quickRemoveButton(collection="Symbols" _id=this._id class="btn btn-danger")
               .col-xs-12.changerMenu-item#editRights
-                .col-xs-12 Users
+
               
      
   else
-    .col-xs-12
-      .col-xs-12.col-md-6.col-md-offset-3
-        +atForm
+    .col-xs-12.col-md-10.col-md-offset-1
+      .col-xs-12
+        .col-xs-12.col-md-6.col-md-offset-3
+          +atForm
 
 
     

@@ -10,7 +10,7 @@ template(name='Company')
               .col-xs-12.col-md-6.closedChart.miniLoader 
                 .col-xs-12.text-center Closed Prices 
                 canvas#closedPrices
-              .col-xs-12.col-md-5.col-md-offset-1.predictionChart.miniLoader 
+              .col-xs-12.col-md-6.predictionChart.miniLoader 
                 .col-xs-12.text-center Prediction        
                 canvas#prediction    
           .col-xs-12.company-boxes
@@ -43,5 +43,8 @@ template(name='Company')
               .col-xs-12.col-md-4.news-box
                 .col-xs-12.title News
                 .col-xs-12.news-container
-              
+          .col-xs-12.col-md-2.col-md-offset-5.loadDataRow
+              button.loadHighData.btn.btn-primary Load High Data Chart
+          .col-xs-12.highChart.miniLoader
+            canvas#highChart(width="8000px" height="900px")  
 

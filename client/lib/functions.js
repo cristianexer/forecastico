@@ -61,6 +61,21 @@ Meteor.myFunctions = {
         });
 
     },
+    highCallIEX: async function(SYMBOL, Handler) {
+
+        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols='+SYMBOL+'&types=timeseries&range=1y';
+
+        await HTTP.get(final, {}, function (error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+                //return response
+                Handler(response);
+            }
+        });
+
+    },
+
     getDateNow: function () {
         return new Date(); //return timestamp
     },
@@ -199,7 +214,44 @@ Meteor.myFunctions = {
         $('#' + id + " .amount").text(value);
 
 
-    }
+    },
+    cleanNotification:function(){
+        $('#notification').removeClass("active error change");
+        $('#notification .content').removeClass('active');
+        $('#notification .content').text("");
+        $('#notification .link').removeClass('active');
+        $('#notification .link a').attr('href','#');
+        $('#notification .link a').text("");
+    },
+    notification: async function (type, content, hyperLink, linkName){
+        let time = 10000;
+        Meteor.myFunctions.cleanNotification();
+        
+        if (content != null && content != '' && typeof content !== "undefined"){
+            $('#notification .content').addClass('active');
+            $('#notification .content').text(content);
+        }
+        if (linkName != null && linkName != '' && typeof linkName !== "undefined"){
+            $('#notification .link').addClass('active');
+            $('#notification .link a').attr('href', hyperLink);
+            $('#notification .link a').text(linkName);
+        }
+        if (type != null && type != '' && typeof type !== "undefined")
+            $('#notification').addClass(`active ${type}`);
+        else 
+            $('#notification').addClass('active');
+
+        Meteor.setTimeout(function() { 
+                Meteor.myFunctions.cleanNotification();
+        }, time);
+
+        $('#notification .closeNotif').click( () => Meteor.myFunctions.cleanNotification() );
+    },
+    legendItem:function(location,item){
+        $(`#${location}`).append(`<div class="col-xs-4 col-md-12 legendItem"><span style="background-color: ${item.color} ;" ></span><div class="legendName">${item.name}</div></div>`);
+    },
+
+
 
 
 }

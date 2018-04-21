@@ -22,6 +22,13 @@ Template.Profile.events({
         let target = event.target.dataset.target;
         $('.changerMenu .changerMenu-item').removeClass('active');
         $(target).addClass('active');
+    },
+    'click .comp':function(event){
+        let target = event.target;
+        $('.companyEditWrapper').removeClass('active');
+        $('.companyEditWrapper').addClass('col-md-4');
+        $(target).parent().toggleClass('active col-md-4');
+        
     }
 
 });

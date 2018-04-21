@@ -3,3 +3,11 @@
 /*****************************************************************************/
 .favorites {
 }
+.no-data{
+    overflow: hidden;
+    h3{
+        color:#aaa;
+        //height: 100vh;
+        line-height: 50vh;
+    }
+}

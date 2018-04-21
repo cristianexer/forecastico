@@ -45,6 +45,46 @@ function placeIndicators(data) {
 /* Company: Event Handlers */
 /*****************************************************************************/
 Template.Company.events({
+    'click .loadHighData':function(){
+        //company not defined
+        $('.loadDataRow').fadeOut();
+        $('.highChart').addClass('prepare');
+        Meteor.myFunctions.highCallIEX(this.company.symbol, function (response) {
+            var ctx = document.getElementById("highChart").getContext("2d");
+            var options = {
+                responsive: false,
+                scaleFontColor: "#fff",
+                scaleFontSize: 10,
+
+            };
+            var data = {
+                labels: [],
+                datasets: []
+            };
+
+            Object.entries(response.data).forEach(function ([key, value]) {
+
+                var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
+                data.labels = temp.dates;
+                data.datasets.push({
+                    label: "" + value,
+                    fillColor: "rgba(220,220,220,0.1)",
+                    strokeColor: "orange",
+                    pointColor: "orange",
+                    pointStrokeColor: "orange",
+                    pointHighlightFill: "orange",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: temp.closeds
+                });
+
+            });
+
+
+            var myLineChart = new Chart(ctx).Line(data, options);
+            $('.highChart').removeClass('miniLoader');
+        });
+
+    }
     
 });
 
@@ -111,7 +151,7 @@ Template.Company.onRendered(function () {
         $('.closedChart').removeClass('miniLoader');
     });
 
-    Meteor.myFunctions.oneYearTimeseriesIEX(company, (rs) => {
+     Meteor.myFunctions.oneYearTimeseriesIEX(company, (rs) => {
 
         let timeseries = rs.data[company].timeseries;
 
@@ -160,7 +200,7 @@ Template.Company.onRendered(function () {
         $('.predictionChart').removeClass('miniLoader');
     });
   
-    
+
 });
 
 Template.Company.onDestroyed(function () {
