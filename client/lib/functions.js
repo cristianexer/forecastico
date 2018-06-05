@@ -159,7 +159,7 @@ Meteor.myFunctions = {
         obj.change = obj.change < 0 ? (obj.change * -1) : obj.change;
 
         return{
-            change: (obj.change - minMaxChange.min) / (minMaxChange.max - minMaxOpen.min),
+            change: (obj.change - minMaxChange.min) / (minMaxChange.max - minMaxChange.min),
             open: (obj.open - minMaxOpen.min) / (minMaxOpen.max - minMaxOpen.min),
             close: (obj.close - minMaxClose.min) / (minMaxClose.max - minMaxClose.min),
         }
