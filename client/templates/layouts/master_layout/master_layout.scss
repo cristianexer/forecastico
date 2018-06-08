@@ -1,90 +1,92 @@
 /*****************************************************************************/
+
 /* Master Layout: Style */
+
 /*****************************************************************************/
+
 @import "{}/client/stylesheets/mixins.scss";
-.forecasticoNav{
+.forecasticoNav {
     position: fixed;
-    bottom:0;
-    left:0;
-    right:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 99999 !important;
-    .innerNav{
+    .innerNav {
         background-color: #fff;
-        border-bottom:4px solid #111;
-        box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.6);
-        .navChild{
+        border-bottom: 4px solid #111;
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.6);
+        .navChild {
             text-align: center;
-            a{
+            a {
                 font-size: 2.5rem;
                 padding: 4px 10px;
-                color:#aaa;
-                @include animate(all,320ms);
-                &.active{
-                    color:$forecastico;
+                color: #aaa;
+                @include animate(all, 320ms);
+                &.active {
+                    color: $forecastico;
                 }
-                &:hover{
-                    color:$forecastico;
-                    @include animate(all,320ms);
+                &:hover {
+                    color: $forecastico;
+                    @include animate(all, 320ms);
                 }
             }
         }
     }
 }
 
-#notification{
+#notification {
     background-color: #eee;
-    position: fixed;
-    //height: 5rem;
+    position: fixed; //height: 5rem;
     margin-top: 1rem;
     z-index: 999 !important;
-    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.4);
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.4);
     border-radius: 6px;
     overflow: hidden;
     @include animate(all, 520ms);
-    @include transform(translateY(-100px));
+    @include transform(translateY(-200px));
     &.active {
         @include transform(translateY(0px));
     }
-    .closeNotif{
+    .closeNotif {
         position: absolute;
         right: 5px;
-        top:5px;
+        top: 5px;
         font-size: 15px;
         text-align: center;
         cursor: pointer;
         padding: 0px 7px;
         text-decoration: none;
         z-index: 9999 !important;
-        color:#fff;
+        color: #fff;
         background-color: $forecastico;
         border-radius: 50%;
-        @include animate(all,320ms);
-        &:hover{
-            background-color: #fff;;
-            color:$forecastico;
+        @include animate(all, 320ms);
+        &:hover {
+            background-color: #fff;
+            ;
+            color: $forecastico;
         }
     }
-    .notifHeaderWrapper{
+    .notifHeaderWrapper {
         background-color: $forecastico;
     }
-    .title{
+    .title {
         margin-top: 10px;
         font-size: 14px;
         letter-spacing: 0.05rem;
         padding-bottom: 3px;
         border-radius: 2px;
-        color:#fff;
+        color: #fff;
     }
-    .content{
-        
+    .content {
         margin-top: 7px;
         margin-bottom: 7px;
         padding-top: 12px;
         padding-bottom: 12px;
         font-size: 14px;
-        letter-spacing: 0.05rem; 
+        letter-spacing: 0.05rem;
         word-spacing: 0.3rem;
-        @include background($forecastico,0.1);
+        @include background($forecastico, 0.1);
         border-radius: 2px;
         overflow: hidden;
         &:before {
@@ -96,7 +98,6 @@
             height: 5px;
             @include background($forecastico, 0.3);
         }
-
         &:after {
             content: "";
             position: absolute;
@@ -107,17 +108,17 @@
             @include background($forecastico, 0.3);
         }
     }
-    &.error{
-        .content{
-            @include background(red,0.1);
-            &:before{
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    right: 0;
-                    height: 5px;
-                    @include background(red, 0.3);
+    &.error {
+        .content {
+            @include background(red, 0.1);
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                height: 5px;
+                @include background(red, 0.3);
             }
             &:after {
                 content: "";
@@ -153,28 +154,80 @@
             }
         }
     }
-    .link{
+    .link {
         display: none;
-        &.active{
+        &.active {
             display: block;
         }
-        a{
+        a {
             display: block;
-            color:#fff;
+            color: #fff;
             background-color: #aaa;
             text-align: center;
             text-decoration: none;
             border-radius: 4px;
-            margin-top:5px;
+            margin-top: 5px;
             margin-bottom: 5px;
             font-size: 14px;
-            @include animate(all,320ms);
-            &:hover{
-                
+            @include animate(all, 320ms);
+            &:hover {
                 background-color: $forecastico;
             }
         }
     }
+}
 
-
+.topBar {
+    //box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.3) inset;
+    //border:2px solid #888;
+    background-color: $forecastico;
+    a {
+        font-size: 4rem;
+        text-decoration: none;
+        display: block;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        text-align: center;
+        color: #fff;
+        span {
+            display: inline-block;
+            font-family: $font2;
+        }
+        .logo {
+            display: inline-block;
+            margin-right: 1rem;
+            height: 5rem;
+            width: 5rem;
+            border: 1px solid #fff;
+            @include transform(rotate(45deg));
+            position: relative;
+            @include animate(all, 320ms);
+            span {
+                position: absolute;
+                @include position(9px, 5px, 0, 0);
+                font-size: 3.1rem;
+                font-family: $font2;
+                text-align: center;
+                @include transform(rotate(-45deg));
+            }
+            &:before {
+                content: "";
+                border: 1px solid #fff;
+                position: absolute;
+                height: 5rem;
+                width: 5rem;
+                left: 0.5rem;
+                bottom: -0.7rem;
+            }
+            &:after {
+                content: "";
+                border: 1px solid #fff;
+                position: absolute;
+                height: 5rem;
+                width: 5rem; //left: 1rem;
+                bottom: -1.27rem;
+                left: 1.06rem;
+            }
+        }
+    }
 }

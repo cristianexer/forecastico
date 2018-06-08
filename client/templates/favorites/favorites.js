@@ -48,9 +48,7 @@ Template.Favorites.events({
 /*****************************************************************************/
 Template.Favorites.helpers({
     'compLength':function(){
-        if(this.companies.length < 1)
-            return false
-        else return true;
+        return (this.companies.length < 1) ? false : true;
     }
 });
 

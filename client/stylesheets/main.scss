@@ -9,6 +9,8 @@
 @import "{}/client/stylesheets/mixins.scss";
 body {
     background-color: #fff;
+    font-family: $font1;
+    
 }
 $primary: $forecastico !important;
 .main {}

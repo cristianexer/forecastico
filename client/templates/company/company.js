@@ -15,11 +15,7 @@ function newsItem(title, content, date) {
 
     $('.news-container').append(created);
 
-    $('.news-box .news-item').on('click', function () {
-        $('.news-item').removeClass('expand');
-        $(this).toggleClass('expand');
-       
-    });
+    
 }
 function placeIndicators(data) {
     //console.log(data);
@@ -79,7 +75,7 @@ Template.Company.events({
 
             });
 
-
+            
             var myLineChart = new Chart(ctx).Line(data, options);
             $('.highChart').removeClass('miniLoader');
         });
@@ -145,7 +141,11 @@ Template.Company.onRendered(function () {
             });
             
         });
-       
+        $('.news-box .news-item').on('click', function () {
+            //$('.news-item').removeClass('expand');
+            $(this).toggleClass('expand');
+
+        });
         
         var myLineChart = new Chart(ctx).Line(data, options);
         $('.closedChart').removeClass('miniLoader');

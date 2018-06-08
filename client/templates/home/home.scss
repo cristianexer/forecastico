@@ -19,8 +19,9 @@
         margin-bottom: 10px
     }
     .news-item {
-        background: #333;
-        color: #fff;
+        background: #fff;
+        color: #333;
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.7);
         margin-bottom: 10px;
         margin-top: 10px;
         overflow: hidden; //height: 120px;
@@ -44,11 +45,13 @@
             font-size: 15px;
             line-height: 30px;
             height: 0;
+            @include animate(all, 320ms);
         }
+
+        @include animate(all, 520ms);
         &.expand {
-            //min-height: 360px;
-            //height: auto;
-            @include animate(all, 820ms);
+            
+            @include animate(all, 520ms);
             .news-content {
                 visibility: visible;
                 margin-top: 20px;
@@ -61,9 +64,11 @@
 }
 
 .trend-box-home {
-    background-color: #333;
+    background-color: #fff;
     //min-height: 40vh;
     overflow: hidden !important;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
    
 }
 .news-box-home{
@@ -77,7 +82,7 @@
 }
 #trendChartLegend{
     .legend{
-        color:#fff;
+        color:#333;
     }
     .legendItem{
         margin-top: 5px;
@@ -90,7 +95,7 @@
             margin-bottom: 5px;
         }
         .legendName{
-            color:#fff;
+            color:#333;
             font-size: 13px;
             display:block;
             text-align: left;

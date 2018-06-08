@@ -20,7 +20,7 @@ Template.Companies.events({
           company:this.company
         };
         
-        $('#' + this.symbol + " .favorite-company i.fa-heart").toggleClass('active');
+        $(`#${this.symbol} .favorite-company i.fa-heart`).toggleClass('active');
         
         if (Favorites.findOne(item)){
           Favorites.remove(Favorites.findOne(item)._id);
@@ -56,6 +56,10 @@ Template.Companies.events({
 /* Companies: Helpers */
 /*****************************************************************************/
 Template.Companies.helpers({
+  'compLength': function () {
+    return (this.companies.length < 1) ? false : true;
+    
+  }
 });
 
 /*****************************************************************************/
@@ -71,7 +75,7 @@ Template.Companies.onRendered(function () {
   var comps = Meteor.myFunctions.stringifyComps(companies);
 
   this.data.favorites.map(function(res,key){
-    $('#' + res.symbol +" .favorite-company i.fa-heart").addClass('active');
+    $(`#${res.symbol} .favorite-company i.fa-heart`).addClass('active');
   });
   Meteor.myFunctions.callIEX(comps, function (response) {
  

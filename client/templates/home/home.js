@@ -8,11 +8,9 @@ function newsItem(title, content, date) {
     var created = '<div class="col-xs-12 col-md-4"><div class="col-xs-12 news-item"><div class="col-xs-12 news-title">' + title + '</div><div class="col-xs-12 news-date">' + date + '</div><div class="col-xs-12 news-content">' + content + '</div></div></div>'
     
     $('.news-box-home').append(created);
+
     
-    $('.news-box-home .news-item').on('click', function () {
-        $('.news-item').removeClass('expand');
-        $(this).toggleClass('expand');
-    });
+    
 }
 
  
@@ -36,13 +34,15 @@ Template.Home.onCreated(function () {
 });
 
 Template.Home.onRendered(function () {
+    
+
     var companies = this.data.companies; //get companies from controller var
     var comps = Meteor.myFunctions.stringifyComps(companies); //stringify the arr of companies for API call
     Meteor.myFunctions.timeseriesIEX(comps, function (response) { //call API
        var ctx = document.getElementById("trend-chart").getContext("2d"); //get chart Wrapper
        var options = {  //chart options                   
            responsive: true,
-           scaleFontColor: "#fff",
+           scaleFontColor: "#333",
            scaleFontSize: 10, 
        };
        var data = { //chart data instance
@@ -72,11 +72,18 @@ Template.Home.onRendered(function () {
                 newsItem(value.news[0].headline, value.news[0].summary, value.news[0].datetime);
 
             });
+
+            $('.news-box-home .news-item').on('click', function () {
+                //$('.news-item').removeClass('expand');
+                //console.log(this);
+                $(this).toggleClass('expand');
+            });
         
                  var myLineChart = new Chart(ctx).Line(data, options); //create chart
        
     });
 
+    
     
 });
 
