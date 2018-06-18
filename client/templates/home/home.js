@@ -24,6 +24,10 @@ Template.Home.events({
 /* Home: Helpers */
 /*****************************************************************************/
 Template.Home.helpers({
+    'compLength': function () {
+        return (this.companies.length < 1) ? false : true;
+
+    }
 });
 
 /*****************************************************************************/
@@ -37,6 +41,7 @@ Template.Home.onRendered(function () {
     
 
     var companies = this.data.companies; //get companies from controller var
+    if(companies.length > 0){
     var comps = Meteor.myFunctions.stringifyComps(companies); //stringify the arr of companies for API call
     Meteor.myFunctions.timeseriesIEX(comps, function (response) { //call API
        var ctx = document.getElementById("trend-chart").getContext("2d"); //get chart Wrapper
@@ -83,7 +88,7 @@ Template.Home.onRendered(function () {
        
     });
 
-    
+}
     
 });
 

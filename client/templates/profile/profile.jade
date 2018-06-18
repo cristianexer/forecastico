@@ -27,11 +27,9 @@ template(name='Profile')
                       .col-xs-12.logOut Log Out
               if isInRole "Admin"
                 .col-xs-12.profile-menu
-                  .col-xs-12.col-md-4
-                    .col-xs-12.profile-menu-item(data-target="#addCompany") Add Company
-                  .col-xs-12.col-md-4
+                  .col-xs-12.col-md-6
                     .col-xs-12.profile-menu-item(data-target="#editCompanies") Edit Companies
-                  .col-xs-12.col-md-4
+                  .col-xs-12.col-md-6
                     .col-xs-12.profile-menu-item(data-target="#editRights") Edit Users Rights
 
       .col-xs-12
@@ -42,16 +40,31 @@ template(name='Profile')
               .col-xs-12 Username
               .col-xs-12 Profile Picture
             if isInRole "Admin"
-              .col-xs-12.changerMenu-item#addCompany
-                +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
               .col-xs-12.changerMenu-item#editCompanies.active
-                each companies
-                  .col-xs-12.col-md-4.companyEditWrapper
-                    .comp=company
-                    +autoForm(collection="Symbols" doc=this id=symbol type="update" buttonContent="Update")
-                      +afQuickFields
-                      button.btn.btn-primary Update
-                      +quickRemoveButton(collection="Symbols" _id=this._id class="btn btn-danger")
+                .col-xs-12.col-lg-3
+                  h4.text-center Add Companies
+                  hr
+                  +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
+                .col-xs-12.col-lg-9
+                  h4.text-center Edit Companies
+                  hr
+                  table.table
+                    thead
+                      tr
+                        th Symbol
+                        th Company
+                        th Option
+                    tbody.companiesTable
+                      each companies
+                        tr
+                          td=symbol
+                          td=company
+                          td.showEditable Edit
+                        tr(id=symbol,class="company hide")
+                          +autoForm(collection="Symbols" doc=this id=symbol type="update" buttonContent="Update")
+                            +afQuickFields
+                            button.btn.btn-primary Update
+                            +quickRemoveButton(collection="Symbols" _id=this._id class="btn btn-danger")
               .col-xs-12.changerMenu-item#editRights
 
               

@@ -56,9 +56,9 @@ Template.Favorites.helpers({
 /* Favorites: Lifecycle Hooks */
 /*****************************************************************************/
 Template.Favorites.onCreated(function () {
-
-    if (Meteor.userId() && this.data.companies.length > 1){
     var companies = this.data.companies;
+    if (Meteor.userId() && companies.length > 0){
+    
     var comps = Meteor.myFunctions.stringifyComps(companies);
     
     Meteor.myFunctions.callIEX(comps, function (response) {

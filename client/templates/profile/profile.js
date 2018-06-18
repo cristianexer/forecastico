@@ -29,6 +29,9 @@ Template.Profile.events({
         $('.companyEditWrapper').addClass('col-md-4');
         $(target).parent().toggleClass('active col-md-4');
         
+    },
+    'click .showEditable':function(event,template){
+        $(`#${this.symbol}`).toggleClass('hide');
     }
 
 });

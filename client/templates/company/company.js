@@ -157,14 +157,14 @@ Template.Company.onRendered(function () {
 
         let trainingData = Meteor.myFunctions.iexDataHandler(timeseries);
         trainingData.splice(trainingData.length - 1);
-        net.train(trainingData);//train the network
+        net.train(trainingData);
 
         let value = timeseries[timeseries.length - 3];
-        // console.log(trainingData);
+
         let arr = Meteor.myFunctions.normalizeObject(Meteor.myFunctions.iexIdentifierObject(value), timeseries);
 
         let prediction = brain.likely(arr, net);
-        // console.log(`We have entered ( ${Meteor.myFunctions.iexIdentifierObject(value).close} ) and we expect ( ${timeseries[timeseries.length - 2].close} ) result is ${prediction} `);
+        
         var ctx = document.getElementById("prediction").getContext("2d");
         var options = {
             legend: {
@@ -186,7 +186,7 @@ Template.Company.onRendered(function () {
 
         chartData.labels = [ timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
         chartData.datasets.push({
-            label: "" + timeseries[timeseries.length - 2].close,
+            //label: "" + timeseries[timeseries.length - 2].close,
             fillColor: "rgba(220,220,220,0.1)",
             strokeColor: "orange",
             pointColor: "orange",

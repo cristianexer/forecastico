@@ -128,37 +128,18 @@
         }
     }
 }
-.companyEditWrapper{
-    overflow: hidden;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    
-    .comp{
-        font-size: 16px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        background-color: #aaa;
-        color:#fff;
-        text-align: center;
-        @include animate(all,320ms);
-        cursor: pointer;
-        &:hover{
-            background-color: $forecastico;
+
+.companiesTable{
+    .company{
+        @include animate(all, 320ms);
+        height: auto;
+        &.hide{
+            height: 0;
         }
     }
-    form{
-        display: none;
-    }
-    &.active{
-        
-        .comp{
-            background-color: $forecastico;
-            
-        }
-        form{
-            display: block;
-            color:#fff;
-           
-        }
+    .showEditable{
+        color: $forecastico;
+        font-weight: bold;
+        cursor:pointer;
     }
 }

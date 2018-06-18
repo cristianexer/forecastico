@@ -1,17 +1,21 @@
 template(name='Home')
-  .col-xs-12
-     .row
-      .col-xs-12.trend-box-home
-          .col-xs-12.col-md-10
-            canvas#trend-chart
-          .col-xs-12.col-md-2#trendChartLegend
-            .col-xs-12.text-center.legend
-              h3.text-center Legend
-  .col-xs-12
-    .row
-      .col-xs-12.news-box-home
-        .col-xs-12.title Latest News
-      //.col-xs-12.col-md-8.last-box-home
+  if compLength
+    .col-xs-12
+      .row
+        .col-xs-12.trend-box-home
+            .col-xs-12.col-md-10
+              canvas#trend-chart
+            .col-xs-12.col-md-2#trendChartLegend
+              .col-xs-12.text-center.legend
+                h3.text-center Legend
+    .col-xs-12
+      .row
+        .col-xs-12.news-box-home
+          .col-xs-12.title Latest News
+        //.col-xs-12.col-md-8.last-box-home
+  else
+      .col-xs-12.text-center.no-data
+        h3 There are no companies registered in database.
       
       
   

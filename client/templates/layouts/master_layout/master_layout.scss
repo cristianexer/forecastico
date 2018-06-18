@@ -231,3 +231,24 @@
         }
     }
 }
+
+#reconnecting {
+    position: absolute;
+    bottom: 6rem;
+    
+    border:1px solid #aaa;
+    .miniLoader{
+        margin-top: 6px;
+    }
+    .info{
+        color:$forecastico;
+        font-size: 1.8rem;
+        //padding-top: 0.8rem;
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+
+
+    }
+    
+}
