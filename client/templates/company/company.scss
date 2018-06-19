@@ -121,16 +121,63 @@
         }
     }
 }
-.highChart{
+.multipleCharts{
     background-color: $forecastico;
-    overflow-x: auto;
-    display: none;
-    &.prepare{
-        display: block;
+    .title {
+        font-size: 23px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color:#fff;
     }
 }
-.loadHighData{
-    background-color: #777 !important;
-    outline: none;
+.chartSelector,.chartSelectorVolume{
+    color:#fff;
+    text-align: center;
+    font-size: 17px;
+    cursor:pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: rgba(255,255,255,0.3);
+    @include animate(all,320ms);
+    &:hover{
+        background-color: #333;
+    }
+
+}
+.chartSelectorVolume{
+    color:#fff;
+    text-align: center;
+    font-size: 17px;
+    cursor:pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: rgba(255,255,255,0.3);
+    @include animate(all,320ms);
+    &:hover{
+        background-color: $forecastico;
+    }
+
+}
+
+
+#canvasContainer,#canvasContainerVolume{
+    min-height: 65rem;
+    overflow: hidden;
+    padding: 1.8rem;
     
 }
+.volumeChart{
+    background-color: #333;
+    color:#fff;
+    min-height: 75.6rem;
+    .title {
+        font-size: 23px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color:#fff;
+    }
+    
+}
+

@@ -43,8 +43,28 @@ template(name='Company')
               .col-xs-12.col-md-4.news-box
                 .col-xs-12.title News
                 .col-xs-12.news-container
-          .col-xs-12.col-md-2.col-md-offset-5.loadDataRow
-              button.loadHighData.btn.btn-primary Load High Data Chart
-          .col-xs-12.highChart.miniLoader
-            canvas#highChart(width="8000px" height="900px")  
+          .col-xs-12.col-lg-12.multipleCharts
+            .row
+              h3.text-center.title History of company
+              #canvasContainer
+                canvas#chartContainer
+              .col-xs-12
+                .row
+                  .col-xs-2.col-xs-offset-1.chartSelector(data-attribute='1M') 1M
+                  .col-xs-2.chartSelector(data-attribute='3M') 3M
+                  .col-xs-2.chartSelector(data-attribute='6M') 6M
+                  .col-xs-2.chartSelector(data-attribute='1Y') 1Y
+                  .col-xs-2.chartSelector(data-attribute='2Y') 2Y
+          .col-xs-12.col-lg-12.volumeChart
+            .row
+              h3.text-center.title Volume of actions
+              #canvasContainerVolume
+                canvas#volumeChart
+              .col-xs-12
+                .row
+                  .col-xs-2.col-xs-offset-1.chartSelectorVolume(data-attribute='1M') 1M
+                  .col-xs-2.chartSelectorVolume(data-attribute='3M') 3M
+                  .col-xs-2.chartSelectorVolume(data-attribute='6M') 6M
+                  .col-xs-2.chartSelectorVolume(data-attribute='1Y') 1Y
+                  .col-xs-2.chartSelectorVolume(data-attribute='2Y') 2Y
 

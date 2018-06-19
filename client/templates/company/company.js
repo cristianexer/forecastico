@@ -4,7 +4,7 @@
 const brain = require('brain.js');
 var net = new brain.NeuralNetwork({
     activation: 'relu', // activation function
-    hiddenLayers: [2,3],
+    hiddenLayers: [2, 3],
     learningRate: 0.4 // global learning rate, useful when training using streams
 });
 
@@ -15,8 +15,9 @@ function newsItem(title, content, date) {
 
     $('.news-container').append(created);
 
-    
+
 }
+
 function placeIndicators(data) {
     //console.log(data);
     var indicator = function (name, value) {
@@ -27,7 +28,7 @@ function placeIndicators(data) {
     indicator('high', data.high);
     indicator('low', data.low);
     indicator('volume', data.latestVolume);
-    indicator('marketCap',data.marketCap);
+    indicator('marketCap', data.marketCap);
     indicator('previousClose', data.previousClose);
     indicator('delayedPrice', data.delayedPrice);
     indicator('sector', data.sector);
@@ -36,21 +37,32 @@ function placeIndicators(data) {
 
 }
 
+function createCanvas(id, where) {
+    let canvas = document.createElement('canvas');
+    canvas.setAttribute('id', id);
+    document.getElementById(where).appendChild(canvas);
+
+}
+
+function removeCanvas(id) {
+    document.getElementById(id).remove();
+}
 
 /*****************************************************************************/
 /* Company: Event Handlers */
 /*****************************************************************************/
 Template.Company.events({
-    'click .loadHighData':function(){
-        //company not defined
-        $('.loadDataRow').fadeOut();
-        $('.highChart').addClass('prepare');
-        Meteor.myFunctions.highCallIEX(this.company.symbol, function (response) {
-            var ctx = document.getElementById("highChart").getContext("2d");
+    'click .chartSelector': function (event, template) {
+        removeCanvas('chartContainer');
+        createCanvas('chartContainer', 'canvasContainer');
+        let dataAtribute = event.target.dataset.attribute;
+        var ctx = document.getElementById("chartContainer").getContext("2d");
+        Meteor.myFunctions.selectedRequest(this.company.symbol, dataAtribute, function (response) {
+
             var options = {
-                responsive: false,
+                responsive: true,
                 scaleFontColor: "#fff",
-                scaleFontSize: 10,
+                scaleFontSize: 9,
 
             };
             var data = {
@@ -75,29 +87,66 @@ Template.Company.events({
 
             });
 
-            
+
             var myLineChart = new Chart(ctx).Line(data, options);
-            $('.highChart').removeClass('miniLoader');
+        });
+
+    },
+    'click .chartSelectorVolume': function (event, template) {
+        removeCanvas('volumeChart');
+        createCanvas('volumeChart', 'canvasContainerVolume');
+        let dataAtribute = event.target.dataset.attribute;
+        var ctx = document.getElementById("volumeChart").getContext("2d");
+        Meteor.myFunctions.selectedRequest(this.company.symbol, dataAtribute, function (response) {
+
+            var options = {
+                responsive: true,
+                scaleFontColor: "#fff",
+                scaleFontSize: 9,
+
+            };
+            var data = {
+                labels: [],
+                datasets: []
+            };
+
+            Object.entries(response.data).forEach(function ([key, value]) {
+
+                var temp = Meteor.myFunctions.formatDataForVolumeChart(value.timeseries);
+                data.labels = temp.dates;
+                data.datasets.push({
+                    label: "" + value,
+                    fillColor: "#154854",
+                    strokeColor: "orange",
+                    pointColor: "orange",
+                    pointStrokeColor: "orange",
+                    pointHighlightFill: "orange",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: temp.volume
+                });
+
+            });
+
+
+            var myBarChart = new Chart(ctx).Bar(data, options);
         });
 
     }
-    
+
 });
 
 /*****************************************************************************/
 /* Company: Helpers */
 /*****************************************************************************/
-Template.Company.helpers({
-});
+Template.Company.helpers({});
 
 /*****************************************************************************/
 /* Company: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Company.onCreated(function () {
-});
+Template.Company.onCreated(function () {});
 
 Template.Company.onRendered(function () {
-   var company= this.data.company.symbol;
+    var company = this.data.company.symbol;
 
     Meteor.myFunctions.fullCallIEX(company, function (response) {
         var ctx = document.getElementById("closedPrices").getContext("2d");
@@ -112,15 +161,15 @@ Template.Company.onRendered(function () {
             responsive: true,
             scaleFontColor: "#fff",
             scaleFontSize: 10,
- 
+
         };
         var data = {
             labels: [],
             datasets: []
         };
-       
+
         Object.entries(response.data).forEach(function ([key, value]) {
-          
+
             var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
             data.labels = temp.dates;
             data.datasets.push({
@@ -128,30 +177,30 @@ Template.Company.onRendered(function () {
                 fillColor: "rgba(220,220,220,0.1)",
                 strokeColor: "orange",
                 pointColor: "orange",
-                pointStrokeColor: "orange" ,
+                pointStrokeColor: "orange",
                 pointHighlightFill: "orange",
                 pointHighlightStroke: "rgba(220,220,220,1)",
                 data: temp.closeds
             });
             placeIndicators(value.quote);
-           
-            value.news.map(function(result,key){
+
+            value.news.map(function (result, key) {
                 if (result.summary.length > 25)
-                newsItem(result.headline, result.summary, result.datetime);
+                    newsItem(result.headline, result.summary, result.datetime);
             });
-            
+
         });
         $('.news-box .news-item').on('click', function () {
             //$('.news-item').removeClass('expand');
             $(this).toggleClass('expand');
 
         });
-        
+
         var myLineChart = new Chart(ctx).Line(data, options);
         $('.closedChart').removeClass('miniLoader');
     });
 
-     Meteor.myFunctions.oneYearTimeseriesIEX(company, (rs) => {
+    Meteor.myFunctions.oneYearTimeseriesIEX(company, (rs) => {
 
         let timeseries = rs.data[company].timeseries;
 
@@ -164,7 +213,7 @@ Template.Company.onRendered(function () {
         let arr = Meteor.myFunctions.normalizeObject(Meteor.myFunctions.iexIdentifierObject(value), timeseries);
 
         let prediction = brain.likely(arr, net);
-        
+
         var ctx = document.getElementById("prediction").getContext("2d");
         var options = {
             legend: {
@@ -184,7 +233,7 @@ Template.Company.onRendered(function () {
             datasets: []
         };
 
-        chartData.labels = [ timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
+        chartData.labels = [timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
         chartData.datasets.push({
             //label: "" + timeseries[timeseries.length - 2].close,
             fillColor: "rgba(220,220,220,0.1)",
@@ -193,15 +242,68 @@ Template.Company.onRendered(function () {
             pointStrokeColor: "orange",
             pointHighlightFill: "orange",
             pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [ timeseries[timeseries.length - 3].close, timeseries[timeseries.length - 2].close, prediction],
+            data: [timeseries[timeseries.length - 3].close, timeseries[timeseries.length - 2].close, prediction],
         });
-       
+
         var myLineChart = new Chart(ctx).Line(chartData, options);
         $('.predictionChart').removeClass('miniLoader');
     });
-  
 
+    Meteor.myFunctions.selectedRequest(company, '1M', function (response) {
+        var ctx = document.getElementById("chartContainer").getContext("2d");
+        var ctxVolume = document.getElementById("volumeChart").getContext("2d");
+        var options = {
+            responsive: true,
+            scaleFontColor: "#fff",
+            scaleFontSize: 10,
+
+        };
+        var data = {
+            labels: [],
+            datasets: []
+        };
+        var dataVolume = {
+            labels: [],
+            datasets: []
+        };
+
+        Object.entries(response.data).forEach(function ([key, value]) {
+            var volumeTemp = Meteor.myFunctions.formatDataForVolumeChart(value.timeseries);
+            var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
+
+            data.labels = temp.dates;
+            dataVolume.labels = volumeTemp.dates;
+
+            data.datasets.push({
+                label: "" + value,
+                fillColor: "rgba(220,220,220,0.1)",
+                strokeColor: "orange",
+                pointColor: "orange",
+                pointStrokeColor: "orange",
+                pointHighlightFill: "orange",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: temp.closeds
+            });
+
+            dataVolume.datasets.push({
+                label: "" + value,
+                fillColor: "#154854",
+                strokeColor: "orange",
+                pointColor: "orange",
+                pointStrokeColor: "orange",
+                pointHighlightFill: "orange",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: volumeTemp.volume
+            });
+
+        });
+
+
+        var myLineChart = new Chart(ctx).Line(data, options);
+
+        var myVolumeChart = new Chart(ctxVolume).Bar(dataVolume, options);
+        
+    });
 });
 
-Template.Company.onDestroyed(function () {
-});
+Template.Company.onDestroyed(function () {});

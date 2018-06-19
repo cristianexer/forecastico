@@ -75,6 +75,21 @@ Meteor.myFunctions = {
         });
 
     },
+    selectedRequest: async function(SYMBOL,range, Handler) {
+
+        var final = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${SYMBOL}&types=timeseries&range=${range}`;
+
+        await HTTP.get(final, {}, function (error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+                //return response
+                Handler(response);
+            }
+        });
+
+    },
+    
 
     getDateNow: function () {
         return new Date(); //return timestamp
@@ -194,6 +209,19 @@ Meteor.myFunctions = {
         return {
             dates: dates,
             closeds: closeds
+        };
+    },
+    formatDataForVolumeChart: function (data) {
+        var dates = [];
+        var volume = [];
+
+        data.map(function (res, key) {
+            volume.push(res.volume);
+            dates.push(res.date);
+        });
+        return {
+            dates: dates,
+            volume: volume
         };
     },
     stringifyComps: function (arr) {

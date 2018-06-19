@@ -233,9 +233,9 @@
 }
 
 #reconnecting {
-    position: absolute;
-    bottom: 6rem;
-    
+    position: fixed;
+    bottom: 4rem;
+    z-index: 9999 !important;
     border:1px solid #aaa;
     .miniLoader{
         margin-top: 6px;

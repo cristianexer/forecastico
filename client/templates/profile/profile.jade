@@ -35,12 +35,24 @@ template(name='Profile')
       .col-xs-12
         .col-xs-12
           .col-xs-12.changerMenu
-            .col-xs-12.changerMenu-item#editProfile
-              .col-xs-12 Edit Profile
-              .col-xs-12 Username
-              .col-xs-12 Profile Picture
+            .col-xs-12.changerMenu-item#editProfile(class='{{activeClassByRole "user"}}')
+              .col-xs-12
+                h3 Edit Profile
+                hr
+              .col-xs-12
+                h4 Username
+                input#inputUsername(type="text",value=Profile.username,placeholder="Username").form-control
+                button#saveUsername.btn.btn-primary Save
+                hr
+              .col-xs-12
+                h4 Profile Picture
+                input#pPicture(type="text",value='{{pictureInput}}',placeholder="Link for profile picture").form-control
+                button#savePicture.btn.btn-primary Save
+                button#removePicture.btn.btn-primary Remove
+                hr
+
             if isInRole "Admin"
-              .col-xs-12.changerMenu-item#editCompanies.active
+              .col-xs-12.changerMenu-item#editCompanies(class='{{activeClassByRole "Admin"}}')
                 .col-xs-12.col-lg-3
                   h4.text-center Add Companies
                   hr
@@ -66,7 +78,20 @@ template(name='Profile')
                             button.btn.btn-primary Update
                             +quickRemoveButton(collection="Symbols" _id=this._id class="btn btn-danger")
               .col-xs-12.changerMenu-item#editRights
-
+                h4.text-center Edit Users Rights
+                hr
+                .col-xs-12.col-lg-6.col-lg-offset-3
+                  .col-xs-12.col-lg-6
+                    select#userSelector.form-control
+                      each users
+                        option(value=_id)=emailOfUser(emails)
+                  .col-xs-12.col-lg-6
+                    select#userOption.form-control
+                      option(value='Admin') Admin
+                      option(value='user') User
+                      option(value='deactivate') Deactivate
+                  .col-xs-12.col-lg-4.col-lg-offset-4.text-center
+                    button#saveOption.btn.btn-primary Save
               
      
   else
