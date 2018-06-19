@@ -32,6 +32,9 @@
             margin-top: 5px;
             margin-bottom: 5px;
             cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+
         }
         .news-date {
             margin-top: 5px;
@@ -50,6 +53,9 @@
 
         @include animate(all, 520ms);
         &.expand {
+            .news-title{
+                white-space: normal;
+            }
             
             @include animate(all, 520ms);
             .news-content {
@@ -69,6 +75,9 @@
     overflow: hidden !important;
     padding-top: 3rem;
     padding-bottom: 3rem;
+    .boxTitle{
+        margin-bottom: 2rem;
+    }
    
 }
 .news-box-home{

@@ -11,7 +11,71 @@ Template.Profile.events({
         $(target).addClass('active');
     },
     'click .showEditable': function (event, template) {
-        $(`#${this.symbol}`).toggleClass('hide');
+        let target = event.target.dataset.attribute;
+        let index = template.data.companies.findIndex(obj => obj.symbol == target);
+        if (index != -1) {
+            let object = template.data.companies[index];
+            $('#symbolUpdate')[0].value = object.symbol
+            $('#companyNameUpdate')[0].value = object.company;
+            $('#companyDescriptionUpdate')[0].value = object.description;
+            document.getElementById('updateCompany').setAttribute('data-attribute', object._id);
+            document.getElementById('deleteCompany').setAttribute('data-attribute', object._id);
+        }
+
+    },
+    'click #updateCompany': function (event, template) {
+        let target = event.target.dataset.attribute;
+        let object = {
+            id: target,
+            symbol: $('#symbolUpdate')[0].value,
+            company: $('#companyNameUpdate')[0].value,
+            description: $('#companyDescriptionUpdate')[0].value,
+            status: true
+        }
+        Meteor.call('updateCompany', object, (err, result) => {
+            if (err) {
+                console.log(err, res);
+            }
+            if (result) {
+                Meteor.myFunctions.notification(
+                    type = "change",
+                    content = `${object.company} was updated with success.`
+                );
+            } else {
+                Meteor.myFunctions.notification(
+                    type = "error",
+                    content = `${object.company} couldn't be updataed, something went wrong.`
+                );
+            }
+        });
+
+    },
+    'click #deleteCompany': function (event, template) {
+        if (confirm('Are you sure you want to delete this company?')) {
+            let target = event.target.dataset.attribute;
+            let object = {
+                id: target,
+                company: $('#companyNameUpdate')[0].value,
+                status: true
+            }
+            Meteor.call('deleteCompany', object, (err, result) => {
+                if (err) {
+                    console.log(err, res);
+                }
+                if (result) {
+                    Meteor.myFunctions.notification(
+                        type = "change",
+                        content = `${object.company} was deleted with success.`
+                    );
+                    $('#editCompanyModal').modal('toggle');
+                } else {
+                    Meteor.myFunctions.notification(
+                        type = "error",
+                        content = `${object.company} couldn't be updataed, something went wrong.`
+                    );
+                }
+            });
+        }
     },
     'click #saveOption': function (event, template) {
         let object = {
@@ -46,7 +110,7 @@ Template.Profile.events({
         }
     },
 
-    'click #saveUsername': function (event,template) {
+    'click #saveUsername': function (event, template) {
         let checkNick = true;
         let object = {
             id: Meteor.userId(),
@@ -54,16 +118,16 @@ Template.Profile.events({
             newUsername: $('#inputUsername')[0].value,
             status: true
         }
-        if(object.newUsername == this.profile.nickname){
+        if (object.newUsername == this.profile.nickname) {
             Meteor.myFunctions.notification(
                 type = "error",
                 content = `Your username is already ${this.profile.nickname}.`
             );
-           // valid = false;
+            // valid = false;
             checkNick = false;
-            
+
         }
-        if(object.newUsername == ''){
+        if (object.newUsername == '') {
             Meteor.myFunctions.notification(
                 type = "error",
                 content = `The input is empty`
@@ -71,85 +135,84 @@ Template.Profile.events({
             //valid = false;
             checkNick = false;
         }
-        if(checkNick){
-        Meteor.call('checkIfUsrnameAlreadyExist',object.newUsername,(err,result)=>{
-            if(!result){
-           
-            Meteor.myFunctions.notification(
-                type = "error",
-                content = `This username already exist.`
-            );
-        }
-        else{
-            Meteor.call('changeNickname', object, (err, result) => {
-                if (err) {
-                    console.log(err, res);
-                }
-                if (result) {
-                    Meteor.myFunctions.notification(
-                        type = "change",
-                        content = `Your new username is now ${object.newUsername}.`
-                    );
-                } else {
+        if (checkNick) {
+            Meteor.call('checkIfUsrnameAlreadyExist', object.newUsername, (err, result) => {
+                if (!result) {
+
                     Meteor.myFunctions.notification(
                         type = "error",
-                        content = `Your username couldn't be updataed, something went wrong.`
+                        content = `This username already exist.`
                     );
+                } else {
+                    Meteor.call('changeNickname', object, (err, result) => {
+                        if (err) {
+                            console.log(err, res);
+                        }
+                        if (result) {
+                            Meteor.myFunctions.notification(
+                                type = "change",
+                                content = `Your new username is now ${object.newUsername}.`
+                            );
+                        } else {
+                            Meteor.myFunctions.notification(
+                                type = "error",
+                                content = `Your username couldn't be updataed, something went wrong.`
+                            );
+                        }
+                    });
                 }
             });
         }
+
+    },
+    'click #savePicture': function () {
+        let object = {
+            id: Meteor.userId(),
+            picture: $('#pPicture')[0].value,
+            status: true
+        }
+
+        Meteor.call('changeProfilePicture', object, (err, result) => {
+            if (err) {
+                console.log(err, res);
+            }
+            if (result) {
+                Meteor.myFunctions.notification(
+                    type = "change",
+                    content = `Your have changed your profile picture.`
+                );
+            } else {
+                Meteor.myFunctions.notification(
+                    type = "error",
+                    content = `Something went wrong.`
+                );
+            }
+        });
+    },
+    'click #removePicture': function () {
+        let object = {
+            id: Meteor.userId(),
+            picture: "none",
+            status: true
+        }
+
+        Meteor.call('changeProfilePicture', object, (err, result) => {
+            if (err) {
+                console.log(err, res);
+            }
+            if (result) {
+                Meteor.myFunctions.notification(
+                    type = "change",
+                    content = `Your have changed your profile picture.`
+                );
+            } else {
+                Meteor.myFunctions.notification(
+                    type = "error",
+                    content = `Something went wrong.`
+                );
+            }
         });
     }
-       
-},
-'click #savePicture':function(){
-    let object = {
-        id: Meteor.userId(),
-        picture: $('#pPicture')[0].value,
-        status: true
-    }
-
-    Meteor.call('changeProfilePicture', object, (err, result) => {
-        if (err) {
-            console.log(err, res);
-        }
-        if (result) {
-            Meteor.myFunctions.notification(
-                type = "change",
-                content = `Your have changed your profile picture.`
-            );
-        } else {
-            Meteor.myFunctions.notification(
-                type = "error",
-                content = `Something went wrong.`
-            );
-        }
-    });
-},
-'click #removePicture':function(){
-    let object = {
-        id: Meteor.userId(),
-        picture: "none",
-        status: true
-    }
-
-    Meteor.call('changeProfilePicture', object, (err, result) => {
-        if (err) {
-            console.log(err, res);
-        }
-        if (result) {
-            Meteor.myFunctions.notification(
-                type = "change",
-                content = `Your have changed your profile picture.`
-            );
-        } else {
-            Meteor.myFunctions.notification(
-                type = "error",
-                content = `Something went wrong.`
-            );
-        }
-    });
-}
 
 });
 
@@ -172,8 +235,8 @@ Template.Profile.helpers({
     'emailOfUser': function (object) {
         return object[0].address;
     },
-    'pictureInput':function(){
-         return (this.profile.profilepicture != "none") ? this.profile.profilepicture : '';
+    'pictureInput': function () {
+        return (this.profile.profilepicture != "none") ? this.profile.profilepicture : '';
     },
     'avatar': function () {
         return (this.profile.profilepicture == "none") ? "/images/avatar.png" : this.profile.profilepicture;

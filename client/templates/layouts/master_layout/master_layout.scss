@@ -43,7 +43,7 @@
     border-radius: 6px;
     overflow: hidden;
     @include animate(all, 520ms);
-    @include transform(translateY(-200px));
+    @include transform(translateY(-1000px));
     &.active {
         @include transform(translateY(0px));
     }

@@ -13,8 +13,7 @@
     "fs": "0.0.1-security",
     "meteor-node-stubs": "^0.3.3",
     "path": "^0.12.7",
-    "simpl-schema": "^1.4.2",
-    "synaptic": "^1.1.4"
+    "simpl-schema": "^1.4.2"
   },
   "devDependencies": {}
 }

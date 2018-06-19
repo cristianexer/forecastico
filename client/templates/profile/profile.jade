@@ -56,7 +56,17 @@ template(name='Profile')
                 .col-xs-12.col-lg-3
                   h4.text-center Add Companies
                   hr
-                  +quickForm(collection="Symbols" type="insert" id="addSymbol" buttonContent="Insert")
+                  .form-group
+                    label(for="symbol") Symbol
+                    input#symbol(type="text",placeholder="Symbol of company").form-control
+                  .form-group
+                    label(for="companyName") Company Name
+                    input#companyName(type="text",placeholder="Name of company").form-control
+                  .form-group
+                    label(for="companyDescription") Company Description
+                    textarea#companyDescription(placeholder="Description of company").form-control
+                  .form-group
+                    button#insertCompany.btn.btn-primary Insert
                 .col-xs-12.col-lg-9
                   h4.text-center Edit Companies
                   hr
@@ -71,12 +81,7 @@ template(name='Profile')
                         tr
                           td=symbol
                           td=company
-                          td.showEditable Edit
-                        tr(id=symbol,class="company hide")
-                          +autoForm(collection="Symbols" doc=this id=symbol type="update" buttonContent="Update")
-                            +afQuickFields
-                            button.btn.btn-primary Update
-                            +quickRemoveButton(collection="Symbols" _id=this._id class="btn btn-danger")
+                          td.showEditable(data-attribute=symbol ,data-toggle="modal" ,data-target="#editCompanyModal") Edit
               .col-xs-12.changerMenu-item#editRights
                 h4.text-center Edit Users Rights
                 hr
@@ -92,7 +97,27 @@ template(name='Profile')
                       option(value='deactivate') Deactivate
                   .col-xs-12.col-lg-4.col-lg-offset-4.text-center
                     button#saveOption.btn.btn-primary Save
-              
+    #editCompanyModal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h4.modal-title Edit Company
+          .modal-body
+            .form-group
+              label(for="symbol") Symbol
+              input#symbolUpdate(type="text",placeholder="Symbol of company").form-control
+            .form-group
+              label(for="companyName") Company Name
+              input#companyNameUpdate(type="text",placeholder="Name of company").form-control
+            .form-group
+              label(for="companyDescription") Company Description
+              textarea#companyDescriptionUpdate(placeholder="Description of company").form-control
+            .form-group
+              button#updateCompany.btn.btn-primary Update
+              button#deleteCompany.btn.btn-danger Delete
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close          
      
   else
     .col-xs-12.col-md-10.col-md-offset-1
