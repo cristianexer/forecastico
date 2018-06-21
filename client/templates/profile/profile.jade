@@ -52,36 +52,33 @@ template(name='Profile')
                 hr
 
             if isInRole "Admin"
-              .col-xs-12.changerMenu-item#editCompanies(class='{{activeClassByRole "Admin"}}')
-                .col-xs-12.col-lg-3
-                  h4.text-center Add Companies
-                  hr
-                  .form-group
-                    label(for="symbol") Symbol
-                    input#symbol(type="text",placeholder="Symbol of company").form-control
-                  .form-group
-                    label(for="companyName") Company Name
-                    input#companyName(type="text",placeholder="Name of company").form-control
-                  .form-group
-                    label(for="companyDescription") Company Description
-                    textarea#companyDescription(placeholder="Description of company").form-control
-                  .form-group
-                    button#insertCompany.btn.btn-primary Insert
-                .col-xs-12.col-lg-9
+              .col-xs-12.changerMenu-item#editCompanies(class='{{activeClassByRole "Admin"}}')               
+                .col-xs-12
                   h4.text-center Edit Companies
                   hr
+                  .col-xs-12
+                    button.btn.btn-primary(data-toggle="modal" ,data-target="#insertCompanyModal") Add Company
+                      i.fa.fa-plus
+                    .row
+                      hr
                   table.table
                     thead
                       tr
+                        th Nr.
                         th Symbol
                         th Company
+                        th Description
                         th Option
                     tbody.companiesTable
                       each companies
                         tr
+                          td.increm {{@index}}
                           td=symbol
                           td=company
+                          td.compDescriptionNoWrap=description
                           td.showEditable(data-attribute=symbol ,data-toggle="modal" ,data-target="#editCompanyModal") Edit
+                  hr
+                  br
               .col-xs-12.changerMenu-item#editRights
                 h4.text-center Edit Users Rights
                 hr
@@ -116,6 +113,26 @@ template(name='Profile')
             .form-group
               button#updateCompany.btn.btn-primary Update
               button#deleteCompany.btn.btn-danger Delete
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+    #insertCompanyModal.modal.fade(role='dialog')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h4.modal-title Add Company
+          .modal-body
+            .form-group
+              label(for="symbol") Symbol
+              input#symbol(type="text",placeholder="Symbol of company").form-control
+            .form-group
+              label(for="companyName") Company Name
+              input#companyName(type="text",placeholder="Name of company").form-control
+            .form-group
+              label(for="companyDescription") Company Description
+              textarea#companyDescription(placeholder="Description of company").form-control
+            .form-group
+              button#insertCompany.btn.btn-primary Add
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close          
      

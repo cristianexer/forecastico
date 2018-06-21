@@ -121,15 +121,20 @@
     margin-top: 20px;
     margin-bottom: 20px;
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+    
     .changerMenu-item {
         display: none;
         &.active {
             display: block;
         }
+        hr{
+            background-color:$forecastico;
+        }
     }
 }
 
 .companiesTable{
+    overflow: hidden;
     .company{
         @include animate(all, 320ms);
         height: auto;
@@ -141,5 +146,9 @@
         color: $forecastico;
         font-weight: bold;
         cursor:pointer;
+    }
+    .compDescriptionNoWrap{
+        text-overflow: ellipsis;
+        word-wrap: break-word;
     }
 }

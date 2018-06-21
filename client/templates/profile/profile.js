@@ -77,6 +77,41 @@ Template.Profile.events({
             });
         }
     },
+    'click #insertCompany':function(event,template){
+        let object = {
+            symbol: $('#symbol')[0].value,
+            company: $('#companyName')[0].value,
+            description: $('#companyDescription')[0].value,
+            status: true
+        }
+        
+
+        Meteor.call('insertCompany', object, (err, result) => {
+            if (err) {
+                console.log(err, res);
+            }
+            if (result && result != 'exists') {
+                Meteor.myFunctions.notification(
+                    type = "change",
+                    content = `${object.company} was added with success.`
+                );
+                $('#symbol')[0].value = $('#companyName')[0].value = $('#companyDescription')[0].value = '';
+                $('#insertCompanyModal').modal('toggle');
+            }else if(result == 'exists'){
+                Meteor.myFunctions.notification(
+                    type = "error",
+                    content = `${object.company} couldn't be inserted it already exists.`
+                );
+            }
+            else {
+                Meteor.myFunctions.notification(
+                    type = "error",
+                    content = `${object.company} couldn't be inserted, something went wrong.`
+                );
+            }
+        });
+
+    },
     'click #saveOption': function (event, template) {
         let object = {
             id: $('#userSelector')[0].value,
@@ -243,7 +278,11 @@ Template.Profile.helpers({
     },
     'myEmail': function () {
         return this.me.emails[0].address;
-    }
+    },
+    // 'counter':function(){
+    //     return 
+    // }
+
 
 });
 
@@ -256,7 +295,7 @@ Template.Profile.onCreated(function () {
 });
 
 Template.Profile.onRendered(function () {
-
+    [...document.getElementsByClassName('increm')].forEach(item => item.innerText = parseInt(item.innerText)+1);
 
 });
 
