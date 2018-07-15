@@ -6,9 +6,14 @@ Meteor.startup(function () {
             userId: user._id,
             
         });
-        user.roles = ['user'];
+        if(user.emails[0].address === "cristianexer@gmail.com")
+            user.roles = ['Admin'];
+        else
+            user.roles = ['user'];
        return user;
     });
+
+    
 
  
 });

@@ -2,6 +2,7 @@
 /* Company: Functions */
 /*****************************************************************************/
 const brain = require('brain.js');
+
 var net = new brain.NeuralNetwork({
     activation: 'relu', // activation function
     hiddenLayers: [2, 3],
@@ -11,17 +12,20 @@ var net = new brain.NeuralNetwork({
 
 
 function newsItem(title, content, date) {
-    var created = '<div class="col-xs-12 news-item"><div class="col-xs-12 news-title">' + title + '</div><div class="col-xs-12 news-date">' + date + '</div><div class="col-xs-12 news-content">' + content + '</div></div>'
-
-    $('.news-container').append(created);
-
+    let el = document.createElement('div');
+    el.innerHTML = `<div class="col-xs-12 news-title">${title}</div><div class="col-xs-12 news-date">${date}</div><div class="col-xs-12 news-content">${content}</div>`;
+    el.classList.add('col-xs-12');
+    el.classList.add('news-item');
+    el.addEventListener('click', (event) => {
+        event.target.parentElement.classList.contains('expand') ? event.target.parentElement.classList.remove('expand') : event.target.parentElement.classList.add('expand');
+    });
+    document.getElementsByClassName('news-container')[0].appendChild(el);
 
 }
 
 function placeIndicators(data) {
-    //console.log(data);
     var indicator = function (name, value) {
-        $('.indicators-box .' + name + ' .indicator').text(value);
+        $(`.indicators-box .${name} .indicator`).text(value);
     };
     indicator('open', data.open);
     indicator('clos', data.close);
@@ -37,16 +41,16 @@ function placeIndicators(data) {
 
 }
 
-function createCanvas(id, where) {
-    let canvas = document.createElement('canvas');
-    canvas.setAttribute('id', id);
-    document.getElementById(where).appendChild(canvas);
+// function createCanvas(id, where) {
+//     let canvas = document.createElement('canvas');
+//     canvas.setAttribute('id', id);
+//     document.getElementById(where).appendChild(canvas);
 
-}
+// }
 
-function removeCanvas(id) {
-    document.getElementById(id).remove();
-}
+// function removeCanvas(id) {
+//     document.getElementById(id).remove();
+// }
 
 /*****************************************************************************/
 /* Company: Event Handlers */
@@ -75,7 +79,7 @@ Template.Company.events({
                 var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
                 data.labels = temp.dates;
                 data.datasets.push({
-                    label: "" + value,
+                    label: `${value}`,
                     fillColor: "rgba(220,220,220,0.1)",
                     strokeColor: "orange",
                     pointColor: "orange",
@@ -115,7 +119,7 @@ Template.Company.events({
                 var temp = Meteor.myFunctions.formatDataForVolumeChart(value.timeseries);
                 data.labels = temp.dates;
                 data.datasets.push({
-                    label: "" + value,
+                    label: `${value}`,
                     fillColor: "#154854",
                     strokeColor: "orange",
                     pointColor: "orange",
@@ -148,7 +152,7 @@ Template.Company.onCreated(function () {});
 Template.Company.onRendered(function () {
     var company = this.data.company.symbol;
 
-    Meteor.myFunctions.fullCallIEX(company, function (response) {
+    Meteor.myFunctions.requestAPI(company, 'fullCall', (response) => {
         var ctx = document.getElementById("closedPrices").getContext("2d");
         var options = {
             legend: {
@@ -168,12 +172,12 @@ Template.Company.onRendered(function () {
             datasets: []
         };
 
-        Object.entries(response.data).forEach(function ([key, value]) {
+        Object.entries(response.data).forEach(([key, value]) => {
 
             var temp = Meteor.myFunctions.formatDataForChart(value.timeseries);
             data.labels = temp.dates;
             data.datasets.push({
-                label: "" + value,
+                label: `${value}`,
                 fillColor: "rgba(220,220,220,0.1)",
                 strokeColor: "orange",
                 pointColor: "orange",
@@ -190,17 +194,13 @@ Template.Company.onRendered(function () {
             });
 
         });
-        $('.news-box .news-item').on('click', function () {
-            //$('.news-item').removeClass('expand');
-            $(this).toggleClass('expand');
 
-        });
 
         var myLineChart = new Chart(ctx).Line(data, options);
         $('.closedChart').removeClass('miniLoader');
     });
 
-    Meteor.myFunctions.oneYearTimeseriesIEX(company, (rs) => {
+    Meteor.myFunctions.requestAPI(company, 'fullCall', (rs) => {
 
         let timeseries = rs.data[company].timeseries;
 
@@ -218,7 +218,6 @@ Template.Company.onRendered(function () {
         var options = {
             legend: {
                 display: true,
-                //position: 'left',
                 labels: {
                     fontColor: "#fff",
                 }
@@ -235,7 +234,6 @@ Template.Company.onRendered(function () {
 
         chartData.labels = [timeseries[timeseries.length - 3].date, timeseries[timeseries.length - 2].date, timeseries[timeseries.length - 1].date];
         chartData.datasets.push({
-            //label: "" + timeseries[timeseries.length - 2].close,
             fillColor: "rgba(220,220,220,0.1)",
             strokeColor: "orange",
             pointColor: "orange",
@@ -275,7 +273,7 @@ Template.Company.onRendered(function () {
             dataVolume.labels = volumeTemp.dates;
 
             data.datasets.push({
-                label: "" + value,
+                label: `${value}`,
                 fillColor: "rgba(220,220,220,0.1)",
                 strokeColor: "orange",
                 pointColor: "orange",
@@ -286,7 +284,7 @@ Template.Company.onRendered(function () {
             });
 
             dataVolume.datasets.push({
-                label: "" + value,
+                label: `${value}`,
                 fillColor: "#154854",
                 strokeColor: "orange",
                 pointColor: "orange",
@@ -302,7 +300,7 @@ Template.Company.onRendered(function () {
         var myLineChart = new Chart(ctx).Line(data, options);
 
         var myVolumeChart = new Chart(ctxVolume).Bar(dataVolume, options);
-        
+
     });
 });
 

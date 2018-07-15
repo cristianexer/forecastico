@@ -5,12 +5,12 @@
 
 Template.Favorites.events({
     'click .fa-area-chart': function () {
-        var symbol = this.symbol;
-        window.location.href = 'company/' + symbol;
+        let symbol = this.symbol;
+        window.location.href = `company/${symbol}`;
     },
     'click .fa-heart': function () {
-        if(Meteor.userId() != null){
-            var item = {
+        if (Meteor.userId() != null) {
+            let item = {
                 user: Meteor.user()._id,
                 symbol: this.symbol,
                 company: this.company
@@ -23,22 +23,20 @@ Template.Favorites.events({
                     type = "change",
                     content = `${this.company} was removed from your favorite list.`
                 );
-            }
-            else {
+            } else {
                 Favorites.insert(item);
                 Meteor.myFunctions.notification(
                     type = "change",
                     content = `${this.company} was added to your favorite list.`
                 );
             }
-        }
-        else{
+        } else {
             Meteor.myFunctions.notification(
                 type = "error",
                 content = "You are not logged in",
                 hyperLink = '/profile',
                 linkName = 'Log In'
-            );  
+            );
         }
     },
 });
@@ -47,7 +45,7 @@ Template.Favorites.events({
 /* Favorites: Helpers */
 /*****************************************************************************/
 Template.Favorites.helpers({
-    'compLength':function(){
+    'compLength': function () {
         return (this.companies.length < 1) ? false : true;
     }
 });
@@ -56,33 +54,30 @@ Template.Favorites.helpers({
 /* Favorites: Lifecycle Hooks */
 /*****************************************************************************/
 Template.Favorites.onCreated(function () {
-    var companies = this.data.companies;
-    if (Meteor.userId() && companies.length > 0){
-    
-    var comps = Meteor.myFunctions.stringifyComps(companies);
-    
-    Meteor.myFunctions.callIEX(comps, function (response) {
+    let companies = this.data.companies;
+    if (Meteor.userId() && companies.length > 0) {
 
-        Object.entries(response.data).forEach(function ([key, value]) {
+        let comps = Meteor.myFunctions.stringifyComps(companies);
 
-            Meteor.myFunctions.placeIndicators(
-                key,
-                [
-                    value.quote.close,//today close price
-                    value.quote.previousClose // yesterday close price
-                ]
-            );
+        Meteor.myFunctions.requestAPI(comps,'newsQuote', function (response) {
+
+            Object.entries(response.data).forEach(function ([key, value]) {
+
+                Meteor.myFunctions.placeIndicators(
+                    key, [
+                        value.quote.close, //today close price
+                        value.quote.previousClose // yesterday close price
+                    ]
+                );
+            });
+
+
         });
-
-
-    });
 
     }
 
 });
 
-Template.Favorites.onRendered(function () {
-});
+Template.Favorites.onRendered(function () {});
 
-Template.Favorites.onDestroyed(function () {
-});
+Template.Favorites.onDestroyed(function () {});

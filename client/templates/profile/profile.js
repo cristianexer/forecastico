@@ -263,7 +263,6 @@ Template.Profile.helpers({
         return (this.role.roles[0] === passed);
     },
     'activeClassByRole': function (passed) {
-
         return (this.role.roles[0] === passed) ? "active" : "inactive";
     },
 
@@ -279,9 +278,7 @@ Template.Profile.helpers({
     'myEmail': function () {
         return this.me.emails[0].address;
     },
-    // 'counter':function(){
-    //     return 
-    // }
+
 
 
 });

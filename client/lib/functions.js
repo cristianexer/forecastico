@@ -5,71 +5,20 @@
 
 Meteor.myFunctions = {
 
-    callIEX: async function (SYMBOL, Handler) {
+    requestAPI: async function (SYMBOL,option, Handler) {
+        let source = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=';
+        let options = {
+            newsQuote : `&types=news,quote&range=1m&last=1`,
+            oneYear: `&types=timeseries&range=1y&last=1`,
+            timeseries:`&types=quote,news,timeseries&range=1m&last=1`,
+            fullCall: `&types=quote,news,timeseries&range=1m&last=18`,
 
-        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=news,quote&range=1m&last=1';
-
-        await HTTP.get(final, {}, function (error, response) {
+        };
+        let req = `${source}${SYMBOL}${options[option]}`;
+        await HTTP.get(req, {}, (error, response) =>{
             if (error) {
                 console.log(error);
             } else {
-
-                Handler(response);
-            }
-        });
-
-    },
-    oneYearTimeseriesIEX: async function (SYMBOL, Handler) {
-
-        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=timeseries&range=1y&last=1';
-
-        await HTTP.get(final, {}, function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                //return response
-                Handler(response);
-            }
-        });
-
-    },
-    timeseriesIEX: async function (SYMBOL, Handler) {
-
-        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=quote,news,timeseries&range=1m&last=1';
-
-        await HTTP.get(final, {}, function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                //return response
-                Handler(response);
-            }
-        });
-
-    },
-    fullCallIEX: async function (SYMBOL, Handler) {
-
-        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + SYMBOL + '&types=quote,news,timeseries&range=1m&last=18';
-
-        await HTTP.get(final, {}, function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                //return response
-                Handler(response);
-            }
-        });
-
-    },
-    highCallIEX: async function(SYMBOL, Handler) {
-
-        var final = 'https://api.iextrading.com/1.0/stock/market/batch?symbols='+SYMBOL+'&types=timeseries&range=1y';
-
-        await HTTP.get(final, {}, function (error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                //return response
                 Handler(response);
             }
         });
@@ -89,25 +38,8 @@ Meteor.myFunctions = {
         });
 
     },
-    
-
-    getDateNow: function () {
-        return new Date(); //return timestamp
-    },
-    formatDate: function (date) {
-        return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-    },
-    toTimestamp: function (strDate) {
-        return parseInt((new Date(strDate).getTime() / 1000).toFixed(0));
-    },
-    dateOperation: function(date,day){
-        return date.getFullYear() + '-' + date.getMonth() + '-' + (date.getDate()+ (day));
-    },
-    toDate: function (UNIX_Timestamp){
-        return new Date(UNIX_Timestamp * 1000);
-    },
     getMinMaxOfDataArr: function (data,k) {
-        var min = data[0][k],
+        let min = data[0][k],
             max = data[0][k];
 
         data.map(function (result, key) {
@@ -152,14 +84,6 @@ Meteor.myFunctions = {
         change = change > 0 ? change * 1 : change * -1;
         return change;
     },
-    normalize: function (data) { 
-        var minMax = Meteor.myFunctions.getMinMaxOfDataArr(data);
-
-        data.map((res, key) => {
-            res.close = (res.close - minMax.min) / (minMax.max - minMax.min);
-        });
-        return data;
-    },
     iexIdentifierObject:function(obj){
         return{
             change: obj.change,
@@ -181,7 +105,7 @@ Meteor.myFunctions = {
     },
     iexDataHandler:function(data){
 
-        var trainingData = [];
+        let trainingData = [];
 
         for (let i = 1; i < data.length - 2; i++) {
             trainingData.push(
@@ -196,11 +120,11 @@ Meteor.myFunctions = {
         return trainingData;
     },
     getRandomHexColor: function () {
-        return '#' + Math.floor(Math.random() * 16777215).toString(16);
+        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     },
     formatDataForChart: function (data) {
-        var dates = [];
-        var closeds = [];
+        let dates = [];
+        let closeds = [];
 
         data.map(function (res, key) {
             closeds.push(res.close);
@@ -212,8 +136,8 @@ Meteor.myFunctions = {
         };
     },
     formatDataForVolumeChart: function (data) {
-        var dates = [];
-        var volume = [];
+        let dates = [];
+        let volume = [];
 
         data.map(function (res, key) {
             volume.push(res.volume);
@@ -225,7 +149,7 @@ Meteor.myFunctions = {
         };
     },
     stringifyComps: function (arr) {
-        var str = "";
+        let str = "";
         arr.map(function (res, key) {
             str = str + res.symbol + ",";
         });
@@ -234,12 +158,12 @@ Meteor.myFunctions = {
     },
 
     placeIndicators: function (id, arr) {
-        var indicatorAdjClose = arr[0] > arr[1] ? "up" : "down";
-        var value = arr[0];
-        var element = $('#' + id + " .indicator");
-        element.append('<i class="fa fa-arrow-circle-' + indicatorAdjClose + '"></i>');
+        let indicatorAdjClose = arr[0] > arr[1] ? "up" : "down";
+        let value = arr[0];
+        let element = $(`#${id} .indicator`);
+        element.append(`<i class="fa fa-arrow-circle-${indicatorAdjClose}"></i>`);
         element.addClass(indicatorAdjClose);
-        $('#' + id + " .amount").text(value);
+        $(`#${id} .amount`).text(value);
 
 
     },

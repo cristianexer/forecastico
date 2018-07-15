@@ -4,12 +4,12 @@
 
 Template.Companies.events({
   'click .fa-area-chart': function () {
-    var symbol = this.symbol;
-    window.location.href = 'company/' + symbol;
+    let symbol = this.symbol;
+    window.location.href = `company/${symbol}`;
   },
   'click .fa-heart': function () {
     if (Meteor.userId() != null) {
-      var item = {
+      let item = {
         user: Meteor.user()._id,
         symbol: this.symbol,
         company: this.company
@@ -43,7 +43,7 @@ Template.Companies.events({
     let companies = template.data.companies;
     let input = $('#searchCompanies')[0].value.toUpperCase();
     companies.map(comp => {
-    $(`#${comp.symbol}`).parent().toggle(comp.company.toUpperCase().indexOf(input) > -1);
+      $(`#${comp.symbol}`).parent().toggle(comp.company.toUpperCase().indexOf(input) > -1);
 
     });
   },
@@ -67,14 +67,14 @@ Template.Companies.onCreated(function () {});
 
 
 Template.Companies.onRendered(function () {
-  var companies = this.data.companies;
+  let companies = this.data.companies;
   if (companies.length > 0) {
-    var comps = Meteor.myFunctions.stringifyComps(companies);
+    let comps = Meteor.myFunctions.stringifyComps(companies);
 
     this.data.favorites.map(function (res, key) {
       $(`#${res.symbol} .favorite-company i.fa-heart`).addClass('active');
     });
-    Meteor.myFunctions.callIEX(comps, function (response) {
+    Meteor.myFunctions.requestAPI(comps,'fullCall', function (response) {
 
       Object.entries(response.data).forEach(function ([key, value]) {
 

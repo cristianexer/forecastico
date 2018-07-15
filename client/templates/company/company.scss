@@ -171,7 +171,8 @@
 
 
 #canvasContainer,#canvasContainerVolume{
-    min-height: 65rem;
+    //width: 100vw;
+    //min-height: 65rem;
     overflow: hidden;
     padding: 1.8rem;
     
@@ -179,7 +180,7 @@
 .volumeChart{
     background-color: #333;
     color:#fff;
-    min-height: 75.6rem;
+    //min-height: 75.6rem;
     .title {
         font-size: 23px;
         text-align: center;
