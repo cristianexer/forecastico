@@ -2,12 +2,22 @@
 /* Company: Functions */
 /*****************************************************************************/
 const brain = require('brain.js');
+let config = {
+    activation: 'tanh', // funcția de activare
+    hiddenLayers: [4], // straturile ascunse, caz curent unul signur cu 4 neuroni
+    iterations: 2000, // numarul maxim de iteratii
+    errorThresh: 0.0003, // eroarea acceptata
+    log: false, // fara afisare in consola
+    logPeriod: 100, // perioada de afisare
+    learningRate: 0.03, // rata de invatare
+    timeout: Infinity // timpul maxim pentru antrenare
+    
+    // activation: 'relu', 
+    // hiddenLayers: [2, 3],
+    // learningRate: 0.4 
 
-var net = new brain.NeuralNetwork({
-    activation: 'relu', // activation function
-    hiddenLayers: [2, 3],
-    learningRate: 0.4 // global learning rate, useful when training using streams
-});
+}
+var net = new brain.NeuralNetwork(config);
 
 
 
@@ -41,16 +51,16 @@ function placeIndicators(data) {
 
 }
 
-// function createCanvas(id, where) {
-//     let canvas = document.createElement('canvas');
-//     canvas.setAttribute('id', id);
-//     document.getElementById(where).appendChild(canvas);
+function createCanvas(id, where) {
+    let canvas = document.createElement('canvas');
+    canvas.setAttribute('id', id);
+    document.getElementById(where).appendChild(canvas);
 
-// }
+}
 
-// function removeCanvas(id) {
-//     document.getElementById(id).remove();
-// }
+function removeCanvas(id) {
+    document.getElementById(id).remove();
+}
 
 /*****************************************************************************/
 /* Company: Event Handlers */
