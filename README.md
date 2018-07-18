@@ -29,7 +29,7 @@ For any questions or something tweet me [@cristianexer](https://www.twitter.com/
 
 ## How it works (basically)
 
-Ookkk so the app has a datasbase, three tables( well not really because is a MongoDB, but maybe for others has more sense ).
+Ookkk so the app has a datasbase, four tables( well not really because is a MongoDB, but maybe for others has more sense ).
 Accounts ,Favorites, Symbols and Profile.
 
 I am really confident that there is no reason to explain what's about in Accounts and Profile, but anyway is about users and their experiences using the app. I couldn't done all the things I've wanted because I did not have enaugh time. But making an account and adding companies to favorite really works and also the profile.
@@ -38,7 +38,7 @@ So the "table" Symbols holds Company symbol,name and description.
 
 Company symbols are used for making the call to the IEX API.
 
-When the route /company/FB, for example, is accessed is made the call to API.
+When the route /company/FB, for example, is accessed, is made the call to API.
 
 The dataset is loaded in client, then the dataset is formated for chart.js and also for brain.js.
 
@@ -68,7 +68,10 @@ Everything is easy and well organised
 
 First loading takes too much, but that depends on hosting (heroku).
 
-On localhost works everything really fast.
+But on localhost works everything really fast.
+
+JavaScript is not that cool as I thought.
+
 
 ## Conclusions
 
@@ -78,7 +81,7 @@ Overall I believe the app is pretty good and predictions are more closer than I 
 
 Adpot TypeScript
 
-Another Neural Network which could offer a value based on news and their influence.
+Another Neural Network which could offer a value based on news and their influence, but it's also needed a Neural Network to filter fake news.
 
 Multiple API Layers with multiple Neural Networks 
 
