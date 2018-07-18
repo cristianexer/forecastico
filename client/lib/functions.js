@@ -4,7 +4,7 @@
 
 
 Meteor.myFunctions = {
-    //request catre api cu optiuni
+
     requestAPI: async function (SYMBOL,option, Handler) {
         let source = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=';
         let options = {
@@ -24,7 +24,7 @@ Meteor.myFunctions = {
         });
 
     },
-    //request catre api cu range
+
     selectedRequest: async function(SYMBOL,range, Handler) {
 
         var final = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${SYMBOL}&types=timeseries&range=${range}`;
@@ -39,7 +39,7 @@ Meteor.myFunctions = {
         });
 
     },
-    //returneaza un obiect cu minimul si maximul din setul de date cu specificatia unui obiect
+
     getMinMaxOfDataArr: function (data,k) {
         let min = data[0][k],
             max = data[0][k];
@@ -55,7 +55,6 @@ Meteor.myFunctions = {
             min: min
         };
     },
-    //formatam setul de date pentru brain.js
     iexDataFormat : function(obj,output){
         //change
         //changeOverTime
@@ -81,7 +80,7 @@ Meteor.myFunctions = {
 
         return dataform;
     },
-    //formatam obiectul pentru testare
+
     iexIdentifierObject:function(obj){
         return{
             change: obj.change,
@@ -89,7 +88,7 @@ Meteor.myFunctions = {
             close: obj.close,
         };
     },
-    //normalizam un obiect in functie de setul de date
+
     normalizeObject: function (obj, data) {
         let minMaxClose = Meteor.myFunctions.getMinMaxOfDataArr(data,"close");
         let minMaxOpen = Meteor.myFunctions.getMinMaxOfDataArr(data, "open");
@@ -102,7 +101,7 @@ Meteor.myFunctions = {
             close: (obj.close - minMaxClose.min) / (minMaxClose.max - minMaxClose.min),
         }
     },
-    //imbinam functiile de formatare si normalizare
+
     iexDataHandler:function(data){
 
         let trainingData = [];
@@ -115,15 +114,13 @@ Meteor.myFunctions = {
                     );
         }
 
-
-
         return trainingData;
     },
-    //generam o culoare random
+
     getRandomHexColor: function () {
         return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     },
-    //formatam setul de date pentru graficul al pretului de inchidere
+
     formatDataForChart: function (data) {
         let dates = [];
         let closeds = [];
@@ -137,7 +134,7 @@ Meteor.myFunctions = {
             closeds: closeds
         };
     },
-    //formatam setul de date pentru graficul de volum
+
     formatDataForVolumeChart: function (data) {
         let dates = [];
         let volume = [];
@@ -151,7 +148,7 @@ Meteor.myFunctions = {
             volume: volume
         };
     },
-    //concatenam un array cu numele companiilor pentru un request mai mare
+    
     stringifyComps: function (arr) {
         let str = "";
         arr.map(function (res, key) {
@@ -160,7 +157,7 @@ Meteor.myFunctions = {
         str[str.length - 1] = "";
         return str;
     },
-    //plasam indicatorii in pagina companiilor
+    
     placeIndicators: function (id, arr) {
         let indicatorAdjClose = arr[0] > arr[1] ? "up" : "down";
         let value = arr[0];
@@ -171,7 +168,7 @@ Meteor.myFunctions = {
 
 
     },
-    //curatam containerul de notificare
+  
     cleanNotification:function(){
         $('#notification').removeClass("active error change");
         $('#notification .content').removeClass('active');
@@ -180,7 +177,7 @@ Meteor.myFunctions = {
         $('#notification .link a').attr('href','#');
         $('#notification .link a').text("");
     },
-    //cream o notificare
+
     notification: async function (type, content, hyperLink, linkName){
         let time = 10000;
         Meteor.myFunctions.cleanNotification();
@@ -205,7 +202,7 @@ Meteor.myFunctions = {
 
         $('#notification .closeNotif').click( () => Meteor.myFunctions.cleanNotification() );
     },
-    //adaugam un element legenda in pagina home
+  
     legendItem:function(location,item){
         $(`#${location}`).append(`<div class="col-xs-4 col-md-12 legendItem"><span style="background-color: ${item.color} ;" ></span><div class="legendName">${item.name}</div></div>`);
     },

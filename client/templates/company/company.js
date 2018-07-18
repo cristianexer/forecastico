@@ -3,18 +3,14 @@
 /*****************************************************************************/
 const brain = require('brain.js');
 let config = {
-    activation: 'tanh', // funcția de activare
-    hiddenLayers: [4], // straturile ascunse, caz curent unul signur cu 4 neuroni
-    iterations: 2000, // numarul maxim de iteratii
-    errorThresh: 0.0003, // eroarea acceptata
-    log: false, // fara afisare in consola
-    logPeriod: 100, // perioada de afisare
-    learningRate: 0.03, // rata de invatare
-    timeout: Infinity // timpul maxim pentru antrenare
-    
-    // activation: 'relu', 
-    // hiddenLayers: [2, 3],
-    // learningRate: 0.4 
+    activation: 'tanh', 
+    hiddenLayers: [4], 
+    iterations: 2000, 
+    errorThresh: 0.0003, 
+    log: false, 
+    logPeriod: 100, 
+    learningRate: 0.03, 
+    timeout: Infinity 
 
 }
 var net = new brain.NeuralNetwork(config);

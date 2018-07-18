@@ -5,13 +5,13 @@
 /*****************************************************************************/
 @import "{}/client/stylesheets/vars.scss";
 
-/// culoare hex cu opacitate
+
 @mixin background($color, $opacity) {
     background-color: $color;
     background-color: rgba($color, $opacity);
 }
 
-/// animatie cu suport pentru toate naviagtoarele web
+
 @mixin animate ($attr, $time) {
     -webkit-transition: $attr, $time ease;
     -moz-transition: $attr, $time ease;
@@ -19,7 +19,7 @@
     -o-transition: $attr, $time ease;
     transition: $attr, $time ease;
 }
-/// transform cu suport pentru toate naviagtoarele web
+
 @mixin transform ($val) {
     -webkit-transform: $val;
     -moz-transform: $val;
@@ -35,7 +35,7 @@
     right: $d;
 }
 
-// tranzistie basic
+
 .simpleTransition {
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
@@ -44,13 +44,13 @@
     transition: all 0.2s;
 }
 
-// animate grow basic de la 0 la 1
+
 @mixin growUp($duration) {
     animation: scaling;
     animation-duration: $duration;
 }
 
-// keyframe pentru scaling
+
 @keyframes scaling {
     0% {
         @include transform(scale(0));
@@ -75,7 +75,7 @@
     }
 }
 
-// functie pentru generare animatie cu keyframe
+
 @mixin animation($animate...) {
     $max: length($animate);
     $animations: '';
@@ -91,7 +91,7 @@
     animation: $animations;
 }
 
-// functie generare keyframe
+
 
 @mixin keyframes($animationName) {
     @-webkit-keyframes #{$animationName} {
