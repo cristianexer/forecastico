@@ -6,7 +6,7 @@ Meteor.startup(function () {
             userId: user._id,
             
         });
-        if(user.emails[0].address === "cristianexer@gmail.com")
+        if(user.emails[0].address === "demo@gmail.com")
             user.roles = ['Admin'];
         else
             user.roles = ['user'];
